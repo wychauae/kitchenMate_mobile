@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class RecipeAdapter(private val receipeList: ArrayList<itemRecipe>): RecyclerView.Adapter<RecipeViewHolder>()  {
-
+    //testing
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recycler_recipe_item, parent, false)
         return RecipeViewHolder(itemView)
