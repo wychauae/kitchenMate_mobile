@@ -22,6 +22,8 @@ class RecipeRecyclerViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recycler_recipe)
 
+        val ingredientList = listOf<String>("Ingredient 1", "Ingredient 2","Ingredient 3","Ingredient 4","Ingredient 5","Ingredient 6","Ingredient 7","Ingredient 8","Ingredient 9","Ingredient 10")
+        val step = listOf<String>("step 1", "step 2","step 3","step 4","step 5","step 6","step 7","step 8","step 9","step 10")
         recycler_view_Recipe = findViewById(R.id.rvRecipe)
         recipeList = ArrayList()
 
@@ -34,7 +36,7 @@ class RecipeRecyclerViewActivity : AppCompatActivity() {
         for (i in 1..10){
             val imageName = "food$i"
             val imageId = resources.getIdentifier(imageName, "drawable", packageName)
-            recipeList.add(itemRecipe(imageName, imageId))
+            recipeList.add(itemRecipe(imageName, imageId, ingredientList[i-1], step[i-1]))
         }
         recipeAdapter.notifyDataSetChanged()
     }

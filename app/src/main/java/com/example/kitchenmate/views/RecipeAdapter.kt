@@ -25,6 +25,8 @@ class RecipeAdapter(private val receipeList: ArrayList<itemRecipe>): RecyclerVie
             val intent = Intent(holder.itemView.context, DetailActivity::class.java)
             intent.putExtra("foodName", receipeList[position].foodName)
             intent.putExtra("photo", receipeList[position].foodPhoto.toString())
+            intent.putExtra("ingredient", receipeList[position].ingredient)
+            intent.putExtra("step", receipeList[position].step)
             holder.itemView.context.startActivity(intent)
         }
     }

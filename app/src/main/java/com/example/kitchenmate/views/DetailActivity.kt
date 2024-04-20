@@ -19,6 +19,8 @@ class DetailActivity : AppCompatActivity() {
 
         val foodName = intent.getStringExtra("foodName")
         val foodPhoto = intent.getStringExtra("photo")
+        val ingredient = intent.getStringExtra("ingredient")
+        val step = intent.getStringExtra("step")
 
         val ingredient_button = findViewById<Button>(R.id.btnIngredient)
         val stpes_button = findViewById<Button>(R.id.btnStep)
@@ -31,18 +33,17 @@ class DetailActivity : AppCompatActivity() {
         val food_image = findViewById<ImageView>(R.id.ivFoodImage)
 
         food_name.setText(foodName)
-
-//        description_text.setText(foodPhoto)
+        description_text.setText(ingredient)
         if (foodPhoto != null) {
             food_image.setImageResource(foodPhoto.toInt())
         }
 
 
         ingredient_button.setOnClickListener {
-            description_text.setText("Ingredient button is clicked")
+            description_text.setText(ingredient)
         }
         stpes_button.setOnClickListener {
-            description_text.setText("Steps button is clicked")
+            description_text.setText(step)
         }
         bookMark_Button.setOnClickListener {
             description_text.setText("Bookmark button is clicked")
