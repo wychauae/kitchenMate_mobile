@@ -27,6 +27,7 @@ class DetailActivity : AppCompatActivity() {
         val description_text: TextView = findViewById<TextView>(R.id.txvDescription)
 
         val back_button = findViewById<ImageButton>(R.id.backButton)
+        val touch_button = findViewById<ImageButton>(R.id.touch_button)
         val food_name: TextView = findViewById<TextView>(R.id.barFoodName)
         val bookMark_Button = findViewById<ImageButton>(R.id.bookMarkButton)
 
@@ -51,6 +52,9 @@ class DetailActivity : AppCompatActivity() {
         back_button.setOnClickListener {
             val it = Intent(this, RecipeRecyclerViewActivity::class.java)
             startActivity(it)
+        }
+        touch_button.setOnClickListener {
+            description_text.setText("Touch button is clicked")
         }
 
     }
