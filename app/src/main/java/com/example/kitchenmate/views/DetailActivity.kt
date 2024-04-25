@@ -43,6 +43,7 @@ class DetailActivity : AppCompatActivity() {
             description_text.setText(ingredient)
         }
         stpes_button.setOnClickListener {
+            Log.d("hello", "sjsjsjs")
             description_text.setText(step)
         }
         bookMark_Button.setOnClickListener {
