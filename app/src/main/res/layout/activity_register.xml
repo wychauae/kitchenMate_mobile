@@ -68,7 +68,8 @@
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
                 app:counterMaxLength="15"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:errorIconDrawable="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordEt"
@@ -88,7 +89,8 @@
                 android:layout_height="wrap_content"
                 app:counterEnabled="true"
                 app:counterMaxLength="15"
-                app:passwordToggleEnabled="true">
+                app:passwordToggleEnabled="true"
+                app:errorIconDrawable="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/confirmPasswordEt"

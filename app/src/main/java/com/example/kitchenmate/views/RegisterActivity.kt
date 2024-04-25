@@ -44,7 +44,6 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
         }
         mViewModel.getIsRegisterCompleted().observe(this){
             if(it){
-                Log.d(TAG, "registered!!!!!!!!!")
                 startActivity(Intent(this, LoginActivity::class.java))
             }
         }
@@ -65,12 +64,16 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
     private fun validateUsername(): Boolean{
         var errorMsg: String? = null
         val value = mBinding.usernameEt.text.toString()
-        if(value.isEmpty()){
+        if (value.isEmpty()) {
             errorMsg = "Username is required"
+        } else if (value.length > 15) {
+            errorMsg = "Username cannot exceed 15 characters"
+        } else if (!value.matches("[a-zA-Z0-9]+".toRegex())) {
+            errorMsg = "Username should contain only letters and numbers"
         }
 
         if(errorMsg != null){
-            mBinding.usernameEt.apply {
+            mBinding.usernameTil.apply {
                 error = errorMsg
             }
         }
@@ -81,16 +84,18 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
     private fun validatePw(): Boolean{
         var errorMsg: String? = null
         val value = mBinding.passwordEt.text.toString()
-        if(value.isEmpty()){
+        if (value.isEmpty()) {
             errorMsg = "Password is required"
-        }
-        else if(value.length < 6){
-            errorMsg = "Password must have length >= 6"
+        } else if (value.length < 6) {
+            errorMsg = "Password must have a length of at least 6"
+        } else if (!value.any { it.isLetter() }) {
+            errorMsg = "Password must contain at least one character"
         }
 
         if(errorMsg != null){
-            mBinding.passwordEt.apply {
+            mBinding.passwordTil.apply {
                 error = errorMsg
+                startIconDrawable = null
             }
         }
 
@@ -109,8 +114,9 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
         }
 
         if(errorMsg != null){
-            mBinding.confirmPasswordEt.apply {
+            mBinding.confirmPasswordTil.apply {
                 error = errorMsg
+                startIconDrawable = null
             }
         }
 
@@ -127,7 +133,6 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
     }
 
     override fun onClick(view: View?) {
-        Log.d(TAG, "click")
 
         if(view == null){
             return
@@ -159,13 +164,16 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
         if(view != null){
             when(view.id){
                 R.id.usernameEt -> {
-                    if(!isFocused){
-                        validateUsername()
+                    if(!isFocused && validateUsername()){
+                        mBinding.usernameTil.apply {
+                            error = null
+                        }
                     }
                 }
                 R.id.passwordEt -> {
                     if(!isFocused
-                        && validatePw()){
+                        && validatePw()
+                        && mBinding.passwordEt.text!!.toString().isNotEmpty()){
                         mBinding.passwordTil.apply {
                             error = null
                             setStartIconDrawable(R.drawable.baseline_check_circle_24)
