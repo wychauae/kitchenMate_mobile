@@ -8,4 +8,7 @@ import retrofit2.http.POST
 interface APIConsumer {
     @POST("users/register")
     suspend fun registerUser(@Body body: RegisterUserRequest) : Response<RegisterUserResponse>
+
+    @POST("users/login")
+    suspend fun loginUser(@Body body: LoginUserRequest) : Response<LoginUserResponse>
 }

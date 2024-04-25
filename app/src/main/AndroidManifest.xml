@@ -21,7 +21,7 @@
         <activity android:name=".views.RecipeRecyclerViewActivity"
             android:exported="false" />
         <activity
-            android:name=".views.RegisterActivity"
+            android:name=".views.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.LoginActivity"
+            android:name=".views.RegisterActivity"
             android:exported="true" />
     </application>
 

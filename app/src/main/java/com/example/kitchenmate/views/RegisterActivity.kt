@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,6 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
 
     private lateinit var mBinding: ActivityRegisterBinding
     private lateinit var mViewModel: RegisterActivityViewModel
-    private val TAG: String = "RegisterActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
