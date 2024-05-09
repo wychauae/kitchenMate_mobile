@@ -16,9 +16,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".views.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustNothing"/>
+        <activity
             android:name=".views.DetailActivity"
             android:exported="false" />
-        <activity android:name=".views.RecipeRecyclerViewActivity"
+        <activity
+            android:name=".views.RecipeRecyclerViewActivity"
             android:exported="false" />
         <activity
             android:name=".views.LoginActivity"
@@ -33,7 +38,7 @@
         <activity
             android:name=".views.RegisterActivity"
             android:exported="true"
-            android:noHistory="true"/>
+            android:noHistory="true" />
     </application>
 
 </manifest>

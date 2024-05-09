@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusCha
         }
         mViewModel.getIsLoginCompleted().observe(this){
             if(it){
-                startActivity(Intent(this, RecipeRecyclerViewActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             }
         }
         mViewModel.getErrorMessage().observe(this){
