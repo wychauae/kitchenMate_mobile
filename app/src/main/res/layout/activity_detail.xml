@@ -114,8 +114,7 @@
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/grey"
         android:contentDescription="TODO"
-        android:scaleType="centerInside"
-        android:src="@drawable/baseline_touch" />
+        android:scaleType="centerInside" />
 
 
 </RelativeLayout>

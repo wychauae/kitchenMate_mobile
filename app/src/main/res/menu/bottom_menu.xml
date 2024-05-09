@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bottomInventory"
+        android:title="Inventory"
+        android:icon="@drawable/baseline_food_bank_24"
+        android:orderInCategory="1"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/bottomRecipe"
+        android:title="Recipe"
+        android:icon="@drawable/baseline_receipt_24"
+        android:orderInCategory="2"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/bottomBookmark"
+        android:icon="@drawable/baseline_bookmarks_24"
+        android:title="Bookmark"
+        android:orderInCategory="3"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bottomUserProfile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Account"
+        android:orderInCategory="4"
+        app:showAsAction="always"/>
+
+</menu>
