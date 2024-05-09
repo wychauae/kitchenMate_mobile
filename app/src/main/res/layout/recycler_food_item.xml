@@ -65,6 +65,7 @@
                         android:text="Amount"
                         android:textColor="@color/maroon"
                         android:textSize="18sp"
+                        android:paddingRight="8dp"
                         android:textAlignment="textEnd"
                         android:id="@+id/foodAmount"/>
 
