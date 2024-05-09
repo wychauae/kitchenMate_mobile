@@ -9,7 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/recFoodCard"
+        android:id="@+id/foodCard"
         app:cardElevation="8dp"
         app:cardCornerRadius="16dp"
         app:cardUseCompatPadding="true">
@@ -22,7 +22,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/recImage"
+                android:id="@+id/foodImage"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 android:src="@drawable/food1"/>
@@ -42,15 +42,16 @@
                     android:maxLines="1"
                     android:textColor="@color/maroon"
                     android:textAlignment="center"
-                    android:id="@+id/recFoodName"/>
+                    android:id="@+id/foodName"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Food Desc"
-                    android:textSize="18sp"
-                    android:id="@+id/recFoodDesc"
-                    android:maxLines="0"/>
+                    android:textSize="14sp"
+                    android:id="@+id/foodDesc"
+                    android:textAlignment="center"
+                    android:maxLines="2"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -61,11 +62,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Amount: "
+                        android:text="Amount"
                         android:textColor="@color/maroon"
                         android:textSize="18sp"
                         android:textAlignment="center"
-                        android:id="@+id/recFoodAmountLabel"/>
+                        android:id="@+id/foodAmount"/>
 
                     <TextView
                         android:layout_width="0dp"
@@ -75,7 +76,7 @@
                         android:textColor="@color/maroon"
                         android:textSize="18sp"
                         android:textAlignment="center"
-                        android:id="@+id/recFoodAmountUnit"/>
+                        android:id="@+id/foodAmountUnit"/>
 
                 </LinearLayout>
 

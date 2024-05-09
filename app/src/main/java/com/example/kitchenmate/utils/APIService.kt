@@ -24,4 +24,6 @@ object APIService {
         val retrofit = builder.build()
         return retrofit.create(APIConsumer::class.java)
     }
+
+    fun getBaseUrl () = BASE_URL;
 }

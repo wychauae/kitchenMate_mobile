@@ -18,6 +18,7 @@ import com.example.kitchenmate.viewModels.LoginActivityViewModelFactory
 class LoginActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener {
     private lateinit var mBinding: ActivityLoginBinding
     private lateinit var mViewModel: LoginActivityViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityLoginBinding.inflate(LayoutInflater.from(this))
@@ -36,7 +37,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, View.OnFocusCha
         }
         mViewModel.getIsLoginCompleted().observe(this){
             if(it){
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
             }
         }
         mViewModel.getErrorMessage().observe(this){

@@ -7,16 +7,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.kitchenmate.R
-import com.example.kitchenmate.databinding.ActivityMainBinding
+import com.example.kitchenmate.databinding.ActivityHomeBinding
 
 
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var mFragmentManager: FragmentManager
-    private lateinit var mBinding: ActivityMainBinding
+    private lateinit var mBinding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+        mBinding = ActivityHomeBinding.inflate(LayoutInflater.from(this))
         setContentView(mBinding.root)
 
         mBinding.bottomNavigation.background = null
