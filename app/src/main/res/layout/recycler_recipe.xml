@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/rvRecipe">
+    android:layout_height="match_parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rvRecipe"/>
+    <ImageButton
+        android:id="@+id/creteButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:contentDescription="create new receipe"
+        android:scaleType="centerInside"
+        android:alpha="0.4"
+        android:backgroundTint="@color/grey"
+        android:src="@drawable/baseline_add" />
 
-</androidx.recyclerview.widget.RecyclerView>
+
+</RelativeLayout>

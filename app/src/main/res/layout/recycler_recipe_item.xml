@@ -8,7 +8,7 @@
         android:id="@+id/item_recipe_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="left" />
+        android:layout_gravity="left"/>
     <TextView
         android:id="@+id/item_recipe_FoodName"
         android:layout_width="match_parent"

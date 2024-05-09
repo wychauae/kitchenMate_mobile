@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/light_grey">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="TODO"
+            android:scaleType="centerInside"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/barFoodName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:text="Create Recipe"/>
+
+        <ImageButton
+            android:id="@+id/bookMarkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:contentDescription="dummy"
+            android:layout_weight="1"
+            android:scaleType="centerInside"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/txvFoodName"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleBar"
+        android:paddingLeft="10dp"
+        android:layout_weight="6"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="Food Name:"/>
+
+    <EditText
+        android:id="@+id/etRecipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txvFoodName"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Recipe name"
+        android:inputType="text"
+        android:minHeight="48dp" />
+    <TextView
+        android:id="@+id/txvImage"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/etRecipeName"
+        android:paddingLeft="10dp"
+        android:layout_weight="6"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="Image:"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_below="@+id/txvImage"
+        android:background="@drawable/stroke_bg"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/recipeImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Upload your image"
+            android:hint="Image"
+            android:onClick="pickPhoto"
+            android:src="@drawable/baseline_upload_24"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txvIngredient"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:layout_weight="6"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="Ingredient:"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/txvIngredient"
+        android:background="@drawable/stroke_bg"
+        android:layout_marginHorizontal="4dp">
+        <LinearLayout
+            android:id="@+id/verticalIngredientInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ingredientInput"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/etRecipeIngredientFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="Ingredient"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:layout_weight="1.5"/>
+                <EditText
+                    android:id="@+id/etRecipeIngredientAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="amount"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:layout_weight="2"/>
+                <EditText
+                    android:id="@+id/etRecipeIngredientAmountUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="unit"
+                    android:inputType="text"
+                    android:minHeight="48dp"
+                    android:layout_weight="2"/>
+                <ImageButton
+                    android:id="@+id/deleteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.3"
+                    android:contentDescription="TODO"
+                    android:scaleType="centerInside"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/baseline_remove_circle" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <ImageButton
+        android:id="@+id/addIngredientButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/verticalIngredientInput"
+        android:layout_alignParentRight="true"
+        android:backgroundTint="@color/grey"
+        android:contentDescription="add ingredient"
+        android:scaleType="centerInside"
+        android:src="@drawable/baseline_add"
+        tools:ignore="TouchTargetSizeCheck" />
+    <TextView
+        android:id="@+id/txvStep"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:layout_weight="6"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:text="Steps:"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_below="@+id/txvStep"
+        android:background="@drawable/stroke_bg"
+        android:layout_marginHorizontal="4dp">
+        <LinearLayout
+            android:id="@+id/verticalStepInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/stepInput"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <EditText
+                    android:id="@+id/etRecipeStep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/addIngredientButton"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="step"
+                    android:layout_weight="1"
+                    android:inputType="text"
+                    android:minHeight="48dp" />
+                <ImageButton
+                    android:id="@+id/deleteStepButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:contentDescription="TODO"
+                    android:scaleType="centerInside"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/baseline_remove_circle" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ImageButton
+        android:id="@+id/addStepButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etRecipeStep"
+        android:layout_alignParentRight="true"
+        android:backgroundTint="@color/grey"
+        android:contentDescription="add step"
+        android:scaleType="centerInside"
+        android:src="@drawable/baseline_add"
+        tools:ignore="TouchTargetSizeCheck" />
+    <Button
+        android:id="@+id/btnIngredient"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginHorizontal="10dp"
+        android:textSize="20sp"
+        android:text="Create"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
