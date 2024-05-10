@@ -4,6 +4,7 @@ import android.content.Intent
 import com.example.kitchenmate.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
@@ -14,16 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitchenmate.databinding.ActivityLoginBinding
-import com.example.kitchenmate.datas.LoginUserRequest
-import com.example.kitchenmate.repositories.AuthRepository
+import com.example.kitchenmate.datas.RecipeIngredient
 import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.APIService
-import com.example.kitchenmate.viewModels.DetailActivityViewModel
-import com.example.kitchenmate.viewModels.DetailActivityViewModelFactory
-import com.example.kitchenmate.viewModels.LoginActivityViewModel
-import com.example.kitchenmate.viewModels.LoginActivityViewModelFactory
-import com.example.kitchenmate.viewModels.RegisterActivityViewModel
-import com.example.kitchenmate.viewModels.RegisterActivityViewModelFactory
+import com.example.kitchenmate.utils.AuthToken
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModel
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModelFactory
 
 class RecipeDetailActivity : AppCompatActivity() {
     private lateinit var recycler_view_Recipe_Ingredient: RecyclerView
@@ -33,19 +30,20 @@ class RecipeDetailActivity : AppCompatActivity() {
     private lateinit var stepAdapter: RecipeIngredientAdapter
     private var isBookmarked: Boolean = false
     private lateinit var mBinding: ActivityLoginBinding
-    private lateinit var mViewModel: DetailActivityViewModel
+    private lateinit var mViewModel: RecipeDetailActivityViewModel
+
+    private lateinit var recipeID:String
+    private lateinit var foodName:String
+    private lateinit var food_Photo:String
+    private lateinit var ingredient_list :ArrayList<RecipeIngredient>
+    private lateinit var step_list :ArrayList<String>
+//    private lateinit var is_Bookmarked: Boolean
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-
-        mBinding = ActivityLoginBinding.inflate(LayoutInflater.from(this))
-        mViewModel = ViewModelProvider(this, DetailActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[DetailActivityViewModel::class.java]
-        val foodName = intent.getStringExtra("foodName")
-        val foodPhoto = intent.getStringExtra("photo")
-        val ingredient = intent.getStringExtra("ingredient")
-        val step = intent.getStringExtra("step")
 
         val ingredient_button = findViewById<Button>(R.id.btnIngredient)
         val steps_button = findViewById<Button>(R.id.btnStep)
@@ -59,35 +57,13 @@ class RecipeDetailActivity : AppCompatActivity() {
 
         val food_image = findViewById<ImageView>(R.id.ivFoodImage)
 
+        mBinding = ActivityLoginBinding.inflate(LayoutInflater.from(this))
+        mViewModel = ViewModelProvider(this, RecipeDetailActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[RecipeDetailActivityViewModel::class.java]
+        recipeID = intent.getStringExtra("recipeID")!!
+        getRecipeDetail()
+
         //        this part is for recycler view
-        //
 
-        //{ GET    /recipe/getRecipeDetails
-        //    "username": "test01"
-        //    "id" : "663b2e6706aeec08f15f36e6"
-        //}
-        //callAPI
-
-        //"recipeDetails": {
-        //        "name": "Egg fried rice",
-        //        "steps": [
-        //            "Cook the rice ",
-        //            "Heat 2 tbsp of the oil"
-        //        ],
-        //        "imageUrl": "uploads\\undefined\\undefined\\2024-05-08-154855-Egg fried rice.jpg",
-        //        "ingredients": [
-        //            {
-        //                "name": "egg",
-        //                "amount": 2,
-        //                "amountUnit": "unit"
-        //            },
-        //            {
-        //                "name": "onion",
-        //                "amount": 1,
-        //                "amountUnit": "unit"
-        //            }
-        //        ]
-        //    }
 
         val dummy_ingredientList: List<List<String>> = listOf(listOf("ingredient 1", "amount 1", "unit","enough"),listOf("ingredient 2", "amount 2", "unit","enough"),listOf("ingredient 3", "amount 3", "unit","enough"),
             listOf("ingredient 4", "amount 4", "unit","not enough"),listOf("ingredient 5", "amount 5", "unit","enough"),listOf("ingredient 6", "amount 6", "unit","enough"),
@@ -116,9 +92,9 @@ class RecipeDetailActivity : AppCompatActivity() {
 
         food_name.setText(foodName)
         description_text.setText("ingredient")
-        if (foodPhoto != null) {
-            food_image.setImageResource(foodPhoto.toInt())
-        }
+//        if (foodPhoto != null) {
+//            food_image.setImageResource(foodPhoto.toInt())
+//        }
 
 
         ingredient_button.setOnClickListener {
@@ -146,14 +122,6 @@ class RecipeDetailActivity : AppCompatActivity() {
                 Toast.makeText(this, "remove the bookmark", android.widget.Toast.LENGTH_SHORT).show()
             }
 
-////            mViewModel.addBookmarkRecipe("663b2e6706aeec08f15f36e6")
-//            if(mViewModel.getIsSuccess() == "true"){
-//                Toast.makeText(this, "Successfully bookmark", Toast.LENGTH_SHORT).show()
-//            }
-//            else{
-//                Toast.makeText(this, "Fail bookmark", Toast.LENGTH_SHORT).show()
-//            }
-
         }
         back_button.setOnClickListener {
             val it = Intent(this, HomeActivity::class.java)
@@ -175,6 +143,25 @@ class RecipeDetailActivity : AppCompatActivity() {
 
 
     }
+
+    private fun getRecipeDetail() {
+        mViewModel.getRecipeDetail(AuthToken.getInstance(application.baseContext).username!!,recipeID!!)
+        Log.d("detail name",AuthToken.getInstance(application.baseContext).username.toString())
+        Log.d("detail recipeID",recipeID.toString())
+        mViewModel.getRecipeDetail()
+
+        foodName = mViewModel.getRecipeDetail().value?.name!!
+        food_Photo = mViewModel.getRecipeDetail().value?.imageUrl!!
+        ingredient_list = mViewModel.getRecipeDetail().value?.ingredients!!
+        step_list = mViewModel.getRecipeDetail().value?.steps!!
+//        is_Bookmarked = mViewModel.getRecipeDetail().value?.isBookmarked
+
+        Log.d("detail photo",food_Photo.toString())
+        Log.d("detail ingredient_list",ingredient_list.toString())
+        Log.d("detail step_list",step_list.toString())
+//        Log.d("detail is_Bookmarked",is_Bookmarked.toString())
+    }
+
 
 }
 

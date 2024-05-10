@@ -41,10 +41,7 @@ class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeView
         holder.recipeCard.setOnClickListener {
             //enter recipe details page here
             val intent = Intent(holder.itemView.context, RecipeDetailActivity::class.java)
-            intent.putExtra("foodName", dataList[position].name)
-//            intent.putExtra("photo", holder.recipeImage.toString())
-//            intent.putExtra("ingredient", dataList[position].ingredient)
-//            intent.putExtra("step", dataList[position].step)
+            intent.putExtra("recipeID", dataList[position]._id)
             holder.itemView.context.startActivity(intent)
         }
     }

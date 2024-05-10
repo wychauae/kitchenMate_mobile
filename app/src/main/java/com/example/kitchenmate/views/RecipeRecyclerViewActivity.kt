@@ -1,26 +1,17 @@
 package com.example.kitchenmate.views
 
-import android.content.Intent
 import com.example.kitchenmate.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitchenmate.databinding.ActivityLoginBinding
 import com.example.kitchenmate.datas.RecipeItem
-import com.example.kitchenmate.repositories.AuthRepository
 import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.APIService
-import com.example.kitchenmate.viewModels.DetailActivityViewModel
-import com.example.kitchenmate.viewModels.DetailActivityViewModelFactory
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModel
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModelFactory
 
 class RecipeRecyclerViewActivity : AppCompatActivity() {
 
@@ -28,7 +19,7 @@ class RecipeRecyclerViewActivity : AppCompatActivity() {
     private lateinit var recipeAdapter: RecipeAdapter
     private lateinit var recipeList: ArrayList<itemRecipe>
     private lateinit var mBinding: ActivityLoginBinding
-    private lateinit var mViewModel: DetailActivityViewModel
+    private lateinit var mViewModel: RecipeDetailActivityViewModel
 
     private var recipeList_from_API: List<RecipeItem> = emptyList()
 
@@ -39,7 +30,7 @@ class RecipeRecyclerViewActivity : AppCompatActivity() {
         setContentView(R.layout.recycler_recipe)
 
         mBinding = ActivityLoginBinding.inflate(LayoutInflater.from(this))
-        mViewModel = ViewModelProvider(this, DetailActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[DetailActivityViewModel::class.java]
+        mViewModel = ViewModelProvider(this, RecipeDetailActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[RecipeDetailActivityViewModel::class.java]
 
         //call API
 //        "recipeList": [
@@ -54,7 +45,7 @@ class RecipeRecyclerViewActivity : AppCompatActivity() {
 //        }
 //        ]
 
-        mViewModel.fetchRecipeList()
+//        mViewModel.fetchRecipeList()
 //        mViewModel.getRecipeList().observe(viewLifecycleOwner){
 //            if(it.isNotEmpty()){
 //                recipeList_from_API = it

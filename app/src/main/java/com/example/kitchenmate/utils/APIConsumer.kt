@@ -6,17 +6,24 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface APIConsumer {
     @POST("users/register")
-    suspend fun registerUser(@Body body: RegisterUserRequest) : Response<RegisterUserResponse>
+    suspend fun registerUser(@Body body: RegisterUserRequest): Response<RegisterUserResponse>
 
     @POST("users/login")
-    suspend fun loginUser(@Body body: LoginUserRequest) : Response<LoginUserResponse>
+    suspend fun loginUser(@Body body: LoginUserRequest): Response<LoginUserResponse>
 
     @GET("food/")
-    suspend fun getFoodList(@Header("Authorization") authToken: String) : Response<GetFoodListResponse>
+    suspend fun getFoodList(@Header("Authorization") authToken: String): Response<GetFoodListResponse>
 
     @GET("recipe/")
-    suspend fun getRecipeList() : Response<GetRecipeListResponse>
+    suspend fun getRecipeList(): Response<GetRecipeListResponse>
+
+    @GET("recipe/getRecipeDetails")
+    suspend fun getRecipeDetails(
+        @Query("username") username: String,
+        @Query("id") id: String
+    ): Response<GetRecipeDetailResponse>
 }

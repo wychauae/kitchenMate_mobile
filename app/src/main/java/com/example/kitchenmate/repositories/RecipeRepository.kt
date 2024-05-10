@@ -1,6 +1,8 @@
 package com.example.kitchenmate.repositories
 
 import android.app.Application
+import com.example.kitchenmate.datas.GetRecipeDetailRequest
+import com.example.kitchenmate.datas.LoginUserRequest
 import com.example.kitchenmate.utils.APIConsumer
 import com.example.kitchenmate.utils.RequestStatus
 import kotlinx.coroutines.flow.flow
@@ -24,6 +26,24 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
             }
         }
     }
+    fun getRecipeDetail(username:String, id:String) = flow{
+        emit(RequestStatus.Waiting)
+        val response = consumer.getRecipeDetails(username, id)
+        if(response.isSuccessful){
+            emit(RequestStatus.Success(response.body()))
+        }
+        else{
+            val errorBody = response.errorBody()?.string()
+            if (errorBody != null) {
+                val errorJson = JSONObject(errorBody)
+                val error = errorJson.getString("error")
+                emit(RequestStatus.Error(error))
+            } else {
+                emit(RequestStatus.Error("Unknown error, please try again"))
+            }
+        }
+    }
+
 
 //    fun addBookmarkRecipe(body: String) = flow {
 //        emit(RequestStatus.Waiting)
