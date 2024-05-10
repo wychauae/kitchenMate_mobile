@@ -19,4 +19,7 @@ interface APIConsumer {
 
     @GET("recipe/")
     suspend fun getRecipeList() : Response<GetRecipeListResponse>
+
+    @GET("bookmarkRecipe/")
+    suspend fun getBookmarkRecipeList(@Header("Authorization") authToken: String) : Response<GetRecipeListResponse>
 }
