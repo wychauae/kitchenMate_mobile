@@ -16,4 +16,7 @@ interface APIConsumer {
 
     @GET("food/")
     suspend fun getFoodList(@Header("Authorization") authToken: String) : Response<GetFoodListResponse>
+
+    @GET("recipe/")
+    suspend fun getRecipeList() : Response<GetRecipeListResponse>
 }
