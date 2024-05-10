@@ -131,7 +131,7 @@ class DetailActivity : AppCompatActivity() {
             Toast.makeText(this, "Bookmark button is clicked", Toast.LENGTH_SHORT).show()
         }
         back_button.setOnClickListener {
-            val it = Intent(this, RecipeRecyclerViewActivity::class.java)
+            val it = Intent(this, HomeActivity::class.java)
             startActivity(it)
         }
         touch_Button.setOnClickListener {

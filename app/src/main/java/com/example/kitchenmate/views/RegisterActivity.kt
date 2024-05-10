@@ -30,6 +30,7 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
         mBinding.usernameEt.onFocusChangeListener = this
         mBinding.passwordEt.onFocusChangeListener = this
         mBinding.confirmPasswordEt.onFocusChangeListener = this
+        mBinding.toLoginText.setOnClickListener(this)
         mBinding.registerBtn.setOnClickListener(this)
         mViewModel = ViewModelProvider(this, RegisterActivityViewModelFactory(AuthRepository(
             APIService.getService()), application))[RegisterActivityViewModel::class.java]
@@ -138,6 +139,9 @@ class RegisterActivity : AppCompatActivity(),  View.OnClickListener, View.OnKeyL
 
 
         when(view.id){
+            R.id.toLoginText -> {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
             R.id.registerBtn -> {
                 mBinding.usernameEt.clearFocus()
                 mBinding.passwordEt.clearFocus()
