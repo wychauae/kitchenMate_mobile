@@ -1,10 +1,9 @@
 package com.example.kitchenmate.views
 
-import android.content.Context
-import android.view.View;
 import android.content.Intent
 import com.example.kitchenmate.R
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -41,7 +40,7 @@ class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeView
         holder.recipeName.text = dataList[position].name
         holder.recipeCard.setOnClickListener {
             //enter recipe details page here
-            val intent = Intent(holder.itemView.context, DetailActivity::class.java)
+            val intent = Intent(holder.itemView.context, RecipeDetailActivity::class.java)
             intent.putExtra("foodName", dataList[position].name)
 //            intent.putExtra("photo", holder.recipeImage.toString())
 //            intent.putExtra("ingredient", dataList[position].ingredient)

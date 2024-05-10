@@ -24,4 +24,24 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
             }
         }
     }
+
+//    fun addBookmarkRecipe(body: String) = flow {
+//        emit(RequestStatus.Waiting)
+//        val response = consumer.addBookmarkRecipe("Bearer" + AuthToken.getInstance(application.baseContext).token!!.toString() , body)
+//        if(response.isSuccessful){
+//            emit(RequestStatus.Success(null))
+//        }
+//        else{
+//            val errorBody = response.errorBody()?.string()
+//            if (errorBody != null) {
+//                val errorJson = JSONObject(errorBody)
+//                val error = errorJson.getString("error")
+//                emit(RequestStatus.Error(error))
+//            } else {
+//                emit(RequestStatus.Error("Unknown error, please try again"))
+//            }
+//        }
+//    }
+
+
 }

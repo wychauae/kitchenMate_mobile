@@ -6,30 +6,54 @@ import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.kitchenmate.datas.GetAllRecipeRequest
 import com.example.kitchenmate.datas.GetRecipeDetailRequest
+import com.example.kitchenmate.datas.RecipeItem
 import com.example.kitchenmate.repositories.AuthRepository
+import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.RequestStatus
 import kotlinx.coroutines.launch
 import kotlin.math.log
 
-class DetailActivityViewModel(private val authRepository: AuthRepository, private val application: Application): ViewModel() {
+class DetailActivityViewModel(private val recipeRepository: RecipeRepository, private val application: Application): ViewModel() {
     private var isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var errorMessage: MutableLiveData<String> = MutableLiveData()
-    fun requestRecipeDetail(body: GetRecipeDetailRequest){
+    private var isSuccess: String = "false"
+    private var recipeList: MutableLiveData<List<RecipeItem>> = MutableLiveData()
+
+    fun getIsSuccess() = isSuccess
+    fun getRecipeList() = recipeList
+    //    fun requestRecipeDetail(body: GetRecipeDetailRequest){
+//        viewModelScope.launch {
+//            recipeRepository.getRecipeDetail(body).collect{
+//                when(it){
+//                    is RequestStatus.Waiting -> {
+//                        isLoading.value = true
+//                    }
+//                    is RequestStatus.Success -> {
+//                        isLoading.value = false
+////                        foodList.value = it.data?.foodList
+////                        return
+//                    }
+//                    is RequestStatus.Error -> {
+//                        isLoading.value = false
+//                        errorMessage.value = it.error
+//                    }
+//                }
+//            }
+//        }
+//    }
+    fun fetchRecipeList(){
         viewModelScope.launch {
-            authRepository.getRecipeDetail(body).collect{
-                when(it){
+            recipeRepository.getRecipeList().collect{
+                when(it) {
                     is RequestStatus.Waiting -> {
                         isLoading.value = true
                     }
                     is RequestStatus.Success -> {
                         isLoading.value = false
-//                        it.data.recipeName
-//                        it.data.imageUrl
-//                        it.data.steps
-//                        it.data.ingredients
-//                        return
+                        recipeList.value = it.data?.recipeList
+                        Log.d("recipe list", recipeList.value.toString())
+                        println(recipeList.value.toString())
                     }
                     is RequestStatus.Error -> {
                         isLoading.value = false
@@ -38,26 +62,24 @@ class DetailActivityViewModel(private val authRepository: AuthRepository, privat
                 }
             }
         }
-    }
-    fun requestAllRecipe(body: GetAllRecipeRequest){
-        viewModelScope.launch {
-            authRepository.getAllRecipe(body).collect{
-                when(it){
-                    is RequestStatus.Waiting -> {
-                        Log.d("waiting", "ture")
-                        isLoading.value = true
-                    }
-                    is RequestStatus.Success -> {
-                        isLoading.value = false
-//                        Log.d("allRecipe", it.data.toString())
-//                        it.data.allRecipe
-                    }
-                    is RequestStatus.Error -> {
-                        isLoading.value = false
-                        errorMessage.value = it.error
-                    }
-                }
-            }
-        }
+//    fun addBookmarkRecipe(body: String){
+//        viewModelScope.launch {
+//            recipeRepository.addBookmarkRecipe(body).collect{
+//                when(it){
+//                    is RequestStatus.Waiting -> {
+//                        Log.d("waiting", "ture")
+//                        isLoading.value = true
+//                    }
+//                    is RequestStatus.Success -> {
+//                        isLoading.value = false
+//                        isSuccess = "true"
+//                    }
+//                    is RequestStatus.Error -> {
+//                        isLoading.value = false
+//                        errorMessage.value = it.error
+//                    }
+//                }
+//            }
+//        }
     }
 }

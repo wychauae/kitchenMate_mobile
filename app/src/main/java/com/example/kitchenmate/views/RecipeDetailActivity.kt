@@ -4,10 +4,8 @@ import android.content.Intent
 import com.example.kitchenmate.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import android.view.LayoutInflater
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,19 +13,26 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kitchenmate.datas.GetAllRecipeRequest
-import com.example.kitchenmate.datas.GetRecipeDetailRequest
+import com.example.kitchenmate.databinding.ActivityLoginBinding
+import com.example.kitchenmate.datas.LoginUserRequest
 import com.example.kitchenmate.repositories.AuthRepository
+import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.APIService
 import com.example.kitchenmate.viewModels.DetailActivityViewModel
 import com.example.kitchenmate.viewModels.DetailActivityViewModelFactory
+import com.example.kitchenmate.viewModels.LoginActivityViewModel
+import com.example.kitchenmate.viewModels.LoginActivityViewModelFactory
+import com.example.kitchenmate.viewModels.RegisterActivityViewModel
+import com.example.kitchenmate.viewModels.RegisterActivityViewModelFactory
 
-class DetailActivity : AppCompatActivity() {
+class RecipeDetailActivity : AppCompatActivity() {
     private lateinit var recycler_view_Recipe_Ingredient: RecyclerView
     private lateinit var ingredientAdapter: RecipeIngredientAdapter
     private lateinit var ingredient_List: ArrayList<itemIngredient>
     private lateinit var step_List: ArrayList<itemIngredient>
     private lateinit var stepAdapter: RecipeIngredientAdapter
+    private var isBookmarked: Boolean = false
+    private lateinit var mBinding: ActivityLoginBinding
     private lateinit var mViewModel: DetailActivityViewModel
 
 
@@ -35,6 +40,8 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        mBinding = ActivityLoginBinding.inflate(LayoutInflater.from(this))
+        mViewModel = ViewModelProvider(this, DetailActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[DetailActivityViewModel::class.java]
         val foodName = intent.getStringExtra("foodName")
         val foodPhoto = intent.getStringExtra("photo")
         val ingredient = intent.getStringExtra("ingredient")
@@ -56,6 +63,7 @@ class DetailActivity : AppCompatActivity() {
         //
 
         //{ GET    /recipe/getRecipeDetails
+        //    "username": "test01"
         //    "id" : "663b2e6706aeec08f15f36e6"
         //}
         //callAPI
@@ -107,28 +115,45 @@ class DetailActivity : AppCompatActivity() {
         // end of recycler view part
 
         food_name.setText(foodName)
-        description_text.setText(ingredient)
+        description_text.setText("ingredient")
         if (foodPhoto != null) {
             food_image.setImageResource(foodPhoto.toInt())
         }
 
 
         ingredient_button.setOnClickListener {
-            description_text.setText(ingredient)
+            description_text.setText("ingredient")
             amount_text.setText("amount")
 
             recycler_view_Recipe_Ingredient.adapter = ingredientAdapter
             ingredientAdapter.notifyDataSetChanged()
         }
         steps_button.setOnClickListener {
-            description_text.setText(step)
+            description_text.setText("step")
             amount_text.setText("")
 
             recycler_view_Recipe_Ingredient.adapter = stepAdapter
             stepAdapter.notifyDataSetChanged()
         }
         bookMark_Button.setOnClickListener {
-            Toast.makeText(this, "Bookmark button is clicked", Toast.LENGTH_SHORT).show()
+            if(isBookmarked == false){
+                isBookmarked = true
+                bookMark_Button.setImageResource(R.drawable.baseline_bookmark_click)
+                Toast.makeText(this, "add the bookmark", Toast.LENGTH_SHORT).show()
+            }else{
+                isBookmarked = false
+                bookMark_Button.setImageResource(R.drawable.baseline_bookmark);
+                Toast.makeText(this, "remove the bookmark", android.widget.Toast.LENGTH_SHORT).show()
+            }
+
+////            mViewModel.addBookmarkRecipe("663b2e6706aeec08f15f36e6")
+//            if(mViewModel.getIsSuccess() == "true"){
+//                Toast.makeText(this, "Successfully bookmark", Toast.LENGTH_SHORT).show()
+//            }
+//            else{
+//                Toast.makeText(this, "Fail bookmark", Toast.LENGTH_SHORT).show()
+//            }
+
         }
         back_button.setOnClickListener {
             val it = Intent(this, HomeActivity::class.java)
