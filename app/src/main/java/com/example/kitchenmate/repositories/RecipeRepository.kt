@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class RecipeRepository (private val consumer: APIConsumer, val application: Application) {
-    fun getRecipeList() = flow{
+    fun getRecipeList(searchText: String?) = flow{
         emit(RequestStatus.Waiting)
-        val response = consumer.getRecipeList()
+        val response = consumer.getRecipeList(searchText)
         if(response.isSuccessful){
             emit(RequestStatus.Success(response.body()))
         }

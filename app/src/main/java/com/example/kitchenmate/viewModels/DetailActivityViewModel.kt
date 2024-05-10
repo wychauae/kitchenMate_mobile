@@ -22,46 +22,7 @@ class DetailActivityViewModel(private val recipeRepository: RecipeRepository, pr
 
     fun getIsSuccess() = isSuccess
     fun getRecipeList() = recipeList
-    //    fun requestRecipeDetail(body: GetRecipeDetailRequest){
-//        viewModelScope.launch {
-//            recipeRepository.getRecipeDetail(body).collect{
-//                when(it){
-//                    is RequestStatus.Waiting -> {
-//                        isLoading.value = true
-//                    }
-//                    is RequestStatus.Success -> {
-//                        isLoading.value = false
-////                        foodList.value = it.data?.foodList
-////                        return
-//                    }
-//                    is RequestStatus.Error -> {
-//                        isLoading.value = false
-//                        errorMessage.value = it.error
-//                    }
-//                }
-//            }
-//        }
-//    }
-    fun fetchRecipeList(){
-        viewModelScope.launch {
-            recipeRepository.getRecipeList().collect{
-                when(it) {
-                    is RequestStatus.Waiting -> {
-                        isLoading.value = true
-                    }
-                    is RequestStatus.Success -> {
-                        isLoading.value = false
-                        recipeList.value = it.data?.recipeList
-                        Log.d("recipe list", recipeList.value.toString())
-                        println(recipeList.value.toString())
-                    }
-                    is RequestStatus.Error -> {
-                        isLoading.value = false
-                        errorMessage.value = it.error
-                    }
-                }
-            }
-        }
+
 //    fun addBookmarkRecipe(body: String){
 //        viewModelScope.launch {
 //            recipeRepository.addBookmarkRecipe(body).collect{
@@ -81,5 +42,5 @@ class DetailActivityViewModel(private val recipeRepository: RecipeRepository, pr
 //                }
 //            }
 //        }
-    }
+
 }

@@ -1,16 +1,17 @@
 package com.example.kitchenmate.views
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitchenmate.databinding.FragmentBookMarkRecipeListBinding
-import com.example.kitchenmate.datas.RecipeItem
 import com.example.kitchenmate.repositories.BookmarkRecipeRepository
 import com.example.kitchenmate.utils.APIService
 import com.example.kitchenmate.viewModels.BookmarkRecipeListFragmentViewModel
@@ -20,10 +21,10 @@ class BookMarkRecipeListFragment : Fragment() {
 
     private lateinit var bookmarkRecipeRecyclerView: RecyclerView
     private lateinit var recipeAdapter: RecipeAdapter
-    private var bookmarkRecipeList: List<RecipeItem> = emptyList()
 
     private lateinit var mBinding: FragmentBookMarkRecipeListBinding
     private lateinit var mViewModel: BookmarkRecipeListFragmentViewModel
+    private lateinit var searchView: SearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,24 +46,51 @@ class BookMarkRecipeListFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(requireContext(), 1)
         bookmarkRecipeRecyclerView = mBinding.bookmarkRecipeRecyclerView
         bookmarkRecipeRecyclerView.layoutManager = gridLayoutManager
-        recipeAdapter = RecipeAdapter(bookmarkRecipeList)
+        recipeAdapter = RecipeAdapter(emptyList())
         bookmarkRecipeRecyclerView.adapter = recipeAdapter
-        setUpObservers()
-    }
-
-    private fun getBookmarkRecipeList() {
-        mViewModel.fetchBookmarkRecipeList()
-        mViewModel.getBookmarkRecipeList().observe(viewLifecycleOwner){
-            if(it.isNotEmpty()){
-                bookmarkRecipeList = it
-                recipeAdapter.updateRecipeList(bookmarkRecipeList)
+        searchView = mBinding.bookmarkRecipeSearch
+        searchView.clearFocus()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
             }
-        }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchList(newText)
+                return true
+            }
+        })
+        setUpObservers()
     }
 
     private fun setUpObservers(){
         mViewModel.getIsLoading().observe(viewLifecycleOwner){
             mBinding.progressBar.isVisible = it
         }
+        mViewModel.getIsSuccess().observe(viewLifecycleOwner){ it ->
+            if(it) {
+                mViewModel.getBookmarkRecipeList().observe(viewLifecycleOwner){
+                    if(it.isNotEmpty()){
+                        recipeAdapter.updateRecipeList(it)
+                        mBinding.noResultFoundText.isVisible = false
+                    } else {
+                        recipeAdapter.updateRecipeList(it)
+                        mBinding.noResultFoundText.isVisible = true
+                    }
+                }
+            }
+        }
+        mViewModel.getErrorMessage().observe(viewLifecycleOwner){
+            if(it.contains("No token provided")){
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+            }
+        }
+    }
+
+    private fun getBookmarkRecipeList() {
+        mViewModel.fetchBookmarkRecipeList(null)
+    }
+    private fun searchList(searchText: String) {
+        mViewModel.fetchBookmarkRecipeList(searchText)
     }
 }

@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.flow
 import org.json.JSONObject
 
 class BookmarkRecipeRepository (private val consumer: APIConsumer, val application: Application) {
-    fun getBookmarkRecipeList() = flow{
+    fun getBookmarkRecipeList(searchText: String?) = flow{
         emit(RequestStatus.Waiting)
         val response = consumer.getBookmarkRecipeList(
-            "Bearer " + AuthToken.getInstance(application.baseContext).token!!)
+            "Bearer " + AuthToken.getInstance(application.baseContext).token!!, searchText)
         if(response.isSuccessful){
             emit(RequestStatus.Success(response.body()))
         }

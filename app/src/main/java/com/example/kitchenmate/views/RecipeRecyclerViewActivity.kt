@@ -54,7 +54,7 @@ class RecipeRecyclerViewActivity : AppCompatActivity() {
 //        }
 //        ]
 
-        mViewModel.fetchRecipeList()
+//        mViewModel.fetchRecipeList()
 //        mViewModel.getRecipeList().observe(viewLifecycleOwner){
 //            if(it.isNotEmpty()){
 //                recipeList_from_API = it
