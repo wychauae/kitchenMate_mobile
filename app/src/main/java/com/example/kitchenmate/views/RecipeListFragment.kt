@@ -1,6 +1,5 @@
 package com.example.kitchenmate.views
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitchenmate.databinding.FragmentRecipeListBinding
-import com.example.kitchenmate.datas.FoodItem
 import com.example.kitchenmate.datas.RecipeItem
 import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.APIService

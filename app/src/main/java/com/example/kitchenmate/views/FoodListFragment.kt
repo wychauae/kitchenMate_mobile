@@ -1,6 +1,5 @@
 package com.example.kitchenmate.views
 
-import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
