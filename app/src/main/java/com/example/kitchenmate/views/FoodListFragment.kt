@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kitchenmate.databinding.FragmentFoodListBinding
-import com.example.kitchenmate.datas.FoodItem
 import com.example.kitchenmate.repositories.FoodRepository
 import com.example.kitchenmate.utils.APIService
 import com.example.kitchenmate.viewModels.FoodListFragmentViewModel
@@ -23,7 +22,6 @@ class FoodListFragment : Fragment() {
 
     private lateinit var foodRecyclerView: RecyclerView
     private lateinit var foodAdapter: FoodAdapter
-    private var foodList: List<FoodItem> = emptyList()
 
     private lateinit var mBinding: FragmentFoodListBinding
     private lateinit var mViewModel: FoodListFragmentViewModel
@@ -45,10 +43,10 @@ class FoodListFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(requireContext(), 1)
         foodRecyclerView = mBinding.foodRecyclerView
         foodRecyclerView.layoutManager = gridLayoutManager
-        foodAdapter = FoodAdapter(foodList)
+        foodAdapter = FoodAdapter(emptyList())
         foodRecyclerView.adapter = foodAdapter
         searchView = mBinding.foodSearch
-        searchView.clearFocus();
+        searchView.clearFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
@@ -68,10 +66,13 @@ class FoodListFragment : Fragment() {
         }
         mViewModel.getIsSuccess().observe(viewLifecycleOwner){ it ->
             if(it) {
-                mViewModel.getFoodList().observe(viewLifecycleOwner){ it ->
+                mViewModel.getFoodList().observe(viewLifecycleOwner){
                     if(it.isNotEmpty()){
-                        foodList = it
-                        foodAdapter.updateFoodList(foodList)
+                        foodAdapter.updateFoodList(it)
+                        mBinding.noResultFoundText.isVisible = false
+                    } else {
+                        foodAdapter.updateFoodList(it)
+                        mBinding.noResultFoundText.isVisible = true
                     }
                 }
             }
