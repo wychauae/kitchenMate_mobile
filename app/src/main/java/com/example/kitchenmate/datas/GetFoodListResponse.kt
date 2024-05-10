@@ -11,3 +11,4 @@ data class FoodItem(
 )
 
 data class GetFoodListResponse(val status: Number, val foodList: List<FoodItem>, val error: String)
+

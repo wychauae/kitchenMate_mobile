@@ -24,8 +24,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/foodImage"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:src="@drawable/food1"/>
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="0dp"

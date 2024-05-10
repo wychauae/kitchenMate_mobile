@@ -50,7 +50,7 @@ class DetailActivity : AppCompatActivity() {
             description_text.setText("Bookmark button is clicked")
         }
         back_button.setOnClickListener {
-            val it = Intent(this, RecipeRecyclerViewActivity::class.java)
+            val it = Intent(this, HomeActivity::class.java)
             startActivity(it)
         }
 //        touch_button.setOnClickListener {

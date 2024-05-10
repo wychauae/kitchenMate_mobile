@@ -1,6 +1,5 @@
 package com.example.kitchenmate.views
 
-import android.util.Log
 import com.example.kitchenmate.R
 import android.view.LayoutInflater
 import android.view.View
