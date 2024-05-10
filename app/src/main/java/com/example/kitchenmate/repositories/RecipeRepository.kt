@@ -1,6 +1,7 @@
 package com.example.kitchenmate.repositories
 
 import android.app.Application
+import android.util.Log
 import com.example.kitchenmate.datas.GetRecipeDetailRequest
 import com.example.kitchenmate.datas.LoginUserRequest
 import com.example.kitchenmate.utils.APIConsumer
@@ -33,6 +34,7 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
             emit(RequestStatus.Success(response.body()))
         }
         else{
+
             val errorBody = response.errorBody()?.string()
             if (errorBody != null) {
                 val errorJson = JSONObject(errorBody)

@@ -16,10 +16,12 @@ import kotlinx.coroutines.launch
 class RecipeDetailActivityViewModel(private val recipeRepository: RecipeRepository, private val application: Application): ViewModel() {
     private var isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var errorMessage: MutableLiveData<String> = MutableLiveData()
-    private var isSuccess: String = "false"
+    private var isSuccess: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var recipeDetail: MutableLiveData<RecipeDetailItem>  = MutableLiveData()
 
-    fun getRecipeDetail() = recipeDetail
+    fun getIsLoading() = isLoading
+    fun getIsSuccess() = isSuccess
+    fun getRecipeDetailItem() = recipeDetail
 
 
     fun getRecipeDetail(username:String, id:String){
@@ -31,10 +33,14 @@ class RecipeDetailActivityViewModel(private val recipeRepository: RecipeReposito
                     }
                     is RequestStatus.Success -> {
                         isLoading.value = false
-                        recipeDetail = MutableLiveData(it.data?.recipeDetails)
-                        Log.d("detail it.data",it.data.toString())
+                        isSuccess.value = true
+                        recipeDetail.value = it.data?.recipeDetails
+                        Log.d("detail recipeID",
+                            recipeDetail.value.toString()
+                        )
                     }
                     is RequestStatus.Error -> {
+                        isSuccess.value = false
                         isLoading.value = false
                         errorMessage.value = it.error
                         Log.d("detail error",it.error)
