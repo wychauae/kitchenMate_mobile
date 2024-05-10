@@ -2,9 +2,12 @@ package com.example.kitchenmate.views
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +19,7 @@ import com.example.kitchenmate.repositories.FoodRepository
 import com.example.kitchenmate.utils.APIService
 import com.example.kitchenmate.viewModels.FoodListFragmentViewModel
 import com.example.kitchenmate.viewModels.FoodListFragmentViewModelFactory
+import java.util.Locale
 
 
 class FoodListFragment : Fragment() {
@@ -26,6 +30,10 @@ class FoodListFragment : Fragment() {
 
     private lateinit var mBinding: FragmentFoodListBinding
     private lateinit var mViewModel: FoodListFragmentViewModel
+    private lateinit var searchView: SearchView
+
+
+    private val TAG = "FoodListFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,27 +53,48 @@ class FoodListFragment : Fragment() {
         foodRecyclerView.layoutManager = gridLayoutManager
         foodAdapter = FoodAdapter(foodList)
         foodRecyclerView.adapter = foodAdapter
-        setUpObservers()
-    }
-
-    private fun getFoodList() {
-        mViewModel.fetchFoodList()
-        mViewModel.getFoodList().observe(viewLifecycleOwner){
-            if(it.isNotEmpty()){
-                foodList = it
-                foodAdapter.updateFoodList(foodList)
+        searchView = mBinding.foodSearch
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
             }
-        }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchList(newText)
+                return true
+            }
+        })
+        setUpObservers()
     }
 
     private fun setUpObservers(){
         mViewModel.getIsLoading().observe(viewLifecycleOwner){
             mBinding.progressBar.isVisible = it
         }
+        mViewModel.getIsSuccess().observe(viewLifecycleOwner){ it ->
+            if(it) {
+                mViewModel.getFoodList().observe(viewLifecycleOwner){ it ->
+                    if(it.isNotEmpty()){
+                        Log.d(TAG, it.toString())
+                        foodList = it
+                        foodAdapter.updateFoodList(foodList)
+                    }
+                }
+            }
+        }
         mViewModel.getErrorMessage().observe(viewLifecycleOwner){
             if(it.contains("No token provided")){
                 startActivity(Intent(requireContext(), LoginActivity::class.java))
             }
         }
+    }
+
+    private fun getFoodList() {
+        mViewModel.fetchFoodList(null)
+    }
+
+    private fun searchList(searchText: String) {
+        mViewModel.fetchFoodList(searchText)
     }
 }

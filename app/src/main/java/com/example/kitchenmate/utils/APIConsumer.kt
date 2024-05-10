@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface APIConsumer {
     @POST("users/register")
@@ -15,7 +16,7 @@ interface APIConsumer {
     suspend fun loginUser(@Body body: LoginUserRequest) : Response<LoginUserResponse>
 
     @GET("food/")
-    suspend fun getFoodList(@Header("Authorization") authToken: String) : Response<GetFoodListResponse>
+    suspend fun getFoodList(@Header("Authorization") authToken: String, @Query("searchText") searchText: String?) : Response<GetFoodListResponse>
 
     @GET("recipe/")
     suspend fun getRecipeList() : Response<GetRecipeListResponse>
