@@ -35,11 +35,15 @@ class HomeActivity : AppCompatActivity() {
 
         val fragment_message = intent.getStringExtra("fragment")
         if(fragment_message == "Recipe"){
-            Log.d("Fragment", fragment_message)
+            mBinding.bottomNavigation.selectedItemId = R.id.bottomRecipe
             openFragment(RecipeListFragment())
+        } else if (fragment_message == "BookMark") {
+            mBinding.bottomNavigation.selectedItemId = R.id.bottomBookmark
+            openFragment(BookMarkRecipeListFragment())
+        } else if (fragment_message === "UserProfile") {
+            mBinding.bottomNavigation.selectedItemId =  R.id.bottomUserProfile
+            openFragment(UserProfileFragment())
         }
-
-
     }
 
     private fun openFragment(fragment: Fragment){
@@ -47,5 +51,6 @@ class HomeActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
     }
+
 
 }
