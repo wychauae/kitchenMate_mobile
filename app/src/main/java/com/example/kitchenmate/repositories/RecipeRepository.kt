@@ -127,11 +127,11 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
             }
         }
     }
-    fun compare(body: EditRecipeRequest) = flow {
+    fun compare(id: String) = flow {
         emit(RequestStatus.Waiting)
-        val response = consumer.editRecipe("Bearer " + AuthToken.getInstance(application.baseContext).token!!, body)
+        val response = consumer.compare("Bearer " + AuthToken.getInstance(application.baseContext).token!!, id)
         if(response.isSuccessful){
-            emit(RequestStatus.Success(null))
+            emit(RequestStatus.Success(response.body()))
         }
         else{
             val errorBody = response.errorBody()?.string()

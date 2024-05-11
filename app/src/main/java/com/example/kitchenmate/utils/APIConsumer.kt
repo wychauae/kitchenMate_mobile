@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface APIConsumer {
@@ -44,9 +45,9 @@ interface APIConsumer {
     suspend fun editRecipe(@Header("Authorization") authToken: String, @Body body: EditRecipeRequest): Response<StatusOnlyResponse>
 
 
-    @GET("recipe/compare")
+    @GET("recipe/compare/{id}")
     suspend fun compare(
         @Header("Authorization") authToken: String,
-        @Query("id") id: String
-    ): Response<StatusOnlyResponse>
+        @Path("id") id: String
+    ): Response<CompareIngredientResponse>
 } 

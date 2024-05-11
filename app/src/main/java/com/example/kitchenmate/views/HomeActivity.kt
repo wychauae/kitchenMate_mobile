@@ -1,6 +1,7 @@
 package com.example.kitchenmate.views
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityHomeBinding.inflate(LayoutInflater.from(this))
         setContentView(mBinding.root)
+        mFragmentManager = supportFragmentManager
 
         mBinding.bottomNavigation.background = null
         mBinding.bottomNavigation.setOnItemSelectedListener { item ->
@@ -29,8 +31,14 @@ class HomeActivity : AppCompatActivity() {
             }
             true
         }
-        mFragmentManager = supportFragmentManager
         openFragment(FoodListFragment())
+
+        val fragment_message = intent.getStringExtra("fragment")
+        if(fragment_message == "Recipe"){
+            Log.d("Fragment", fragment_message)
+            openFragment(RecipeListFragment())
+        }
+
 
     }
 
