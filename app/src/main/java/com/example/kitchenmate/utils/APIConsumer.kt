@@ -47,4 +47,7 @@ interface APIConsumer {
         @Header("Authorization") authToken: String,
         @Path("id") id: String
     ): Response<CompareIngredientResponse>
+
+    @GET("recipe/getRecipeListByUser")
+    suspend fun getRecipeListByUser(@Header("Authorization") authToken: String): Response<GetRecipeListResponse>
 } 

@@ -26,7 +26,6 @@ class UserProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         mBinding.usernameTv.text = AuthToken.getInstance(requireContext().applicationContext).username!!
         mBinding.myRecipeBtn.setOnClickListener { handleMyRecipeButtonClick() }
         mBinding.myShoppingListBtn.setOnClickListener { handleMyShoppingListButtonClick() }
@@ -37,7 +36,7 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun handleMyRecipeButtonClick() {
-        // Handle myRecipeBtn click
+        startActivity(Intent(requireContext(), MyRecipeListActivity::class.java))
     }
 
     private fun handleMyShoppingListButtonClick() {

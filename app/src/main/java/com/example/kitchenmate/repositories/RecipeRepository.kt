@@ -142,6 +142,24 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
         }
     }
 
+    fun getRecipeListByUser() = flow{
+        emit(RequestStatus.Waiting)
+        val response = consumer.getRecipeListByUser("Bearer " + AuthToken.getInstance(application.baseContext).token!!)
+        if(response.isSuccessful){
+            emit(RequestStatus.Success(response.body()))
+        }
+        else{
+            val errorBody = response.errorBody()?.string()
+            if (errorBody != null) {
+                val errorJson = JSONObject(errorBody)
+                val error = errorJson.getString("error")
+                emit(RequestStatus.Error(error))
+            } else {
+                emit(RequestStatus.Error("Unknown error, please try again"))
+            }
+        }
+    }
+
 
 
 }
