@@ -47,6 +47,16 @@
 
         </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/editButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="right|bottom"
+            android:scaleType="centerInside"
+            android:alpha="0.4"
+            android:backgroundTint="@color/grey"
+            android:src="@drawable/baseline_edit" />
+
     </androidx.cardview.widget.CardView>
 
 

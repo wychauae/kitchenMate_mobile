@@ -1,5 +1,6 @@
 package com.example.kitchenmate.views
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -31,6 +32,12 @@ class RecipeListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mBinding = FragmentRecipeListBinding.inflate(inflater, container, false)
+
+        mBinding.creteButton.setOnClickListener {
+            val it = Intent(context, CreateRecipeActivity::class.java)
+            startActivity(it)
+        }
+
         return mBinding.root
     }
 

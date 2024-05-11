@@ -1,15 +1,12 @@
-@GET("recipe/getRecipeDetails")
-    suspend fun getRecipeDetails(
-        @Query("username") username: String,
-        @Query("id") id: String
-    ): Response<GetRecipeDetailResponse>package com.example.kitchenmate.utils
-
+package com.example.kitchenmate.utils
 import com.example.kitchenmate.datas.*
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface APIConsumer {
@@ -27,9 +24,29 @@ interface APIConsumer {
 
     @GET("bookmarkRecipe/")
     suspend fun getBookmarkRecipeList(@Header("Authorization") authToken: String, @Query("searchText") searchText: String?) : Response<GetRecipeListResponse>
- 	@GET("recipe/getRecipeDetails")
+
+    @GET("recipe/getRecipeDetails")
    	 suspend fun getRecipeDetails(
     	    @Query("username") username: String,
      	   @Query("id") id: String
    	 ): Response<GetRecipeDetailResponse>
+
+    @POST("recipe/")
+    suspend fun insertRecipe(@Header("Authorization") authToken: String, @Body body: InsertRecipeRequest): Response<StatusOnlyResponse>
+
+    @POST("bookmarkRecipe/")
+    suspend fun addBookmarkRecipe(@Header("Authorization") authToken: String, @Body body: AddBookmarkRequest): Response<StatusOnlyResponse>
+
+    @DELETE("bookmarkRecipe/")
+    suspend fun removeBookmarkRecipe(@Header("Authorization") authToken: String, @Query("id") id: String): Response<StatusOnlyResponse>
+
+    @PUT("recipe/")
+    suspend fun editRecipe(@Header("Authorization") authToken: String, @Body body: EditRecipeRequest): Response<StatusOnlyResponse>
+
+
+    @GET("recipe/compare")
+    suspend fun compare(
+        @Header("Authorization") authToken: String,
+        @Query("id") id: String
+    ): Response<StatusOnlyResponse>
 } 

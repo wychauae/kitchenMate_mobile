@@ -65,18 +65,10 @@
         android:layout_height="80dp"
         android:layout_gravity="bottom|right"
         android:scaleType="centerInside"
+        android:layout_marginVertical="90dp"
         android:alpha="0.4"
         android:backgroundTint="@color/grey"
         android:src="@drawable/baseline_add" />
-    <ImageButton
-        android:id="@+id/editButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="bottom|left"
-        android:layout_marginHorizontal="10dp"
-        android:scaleType="centerInside"
-        android:alpha="0.4"
-        android:backgroundTint="@color/grey"
-        android:src="@drawable/baseline_edit" />
+
 
 </FrameLayout>
