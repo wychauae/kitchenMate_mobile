@@ -1,6 +1,7 @@
 package com.example.kitchenmate.views
 
 import android.graphics.Color
+import android.util.Log
 import com.example.kitchenmate.R
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,11 +18,21 @@ class RecipeIngredientAdapter(private val ingredientList: ArrayList<itemIngredie
 
     override fun onBindViewHolder(holder: RecipeIngredientViewHolder, position: Int) {
         holder.ingredient_name.text = ingredientList[position].ingredientName
+        Log.d("enough is", ingredientList[position].enough);
         if(ingredientList[position].enough == "enough"){
-            holder.ingredient_name.setTextColor(Color.parseColor("#0aad3f"))
+            Log.d("enough is", "inside enough");
+//            holder.ingredient_name.setTextColor(Color.parseColor("#36e622"))
+            holder.recycler_LinearLayout.setBackgroundColor(Color.parseColor("#36e622"));
         }
         else if(ingredientList[position].enough == "not enough"){
-            holder.ingredient_name.setTextColor(Color.parseColor("#ffff01"))
+            Log.d("enough is", "inside  not enough");
+//            holder.ingredient_name.setTextColor(Color.parseColor("#bd3737"))
+            holder.recycler_LinearLayout.setBackgroundColor(Color.parseColor("#ff6e6e"));
+        }
+        else if(ingredientList[position].enough == "not available"){
+            Log.d("enough is", "inside  not available");
+//            holder.ingredient_name.setTextColor(Color.parseColor("#787878"))
+            holder.recycler_LinearLayout.setBackgroundColor(Color.parseColor("#b5b5b5"));
         }
         holder.ingredient_amount.text = ingredientList[position].amount + ingredientList[position].amountUnit
     }

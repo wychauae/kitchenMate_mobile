@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kitchenmate.datas.AddBookmarkRequest
+import com.example.kitchenmate.datas.CompareItem
 import com.example.kitchenmate.datas.EditRecipeRequest
 import com.example.kitchenmate.datas.FoodItem
 import com.example.kitchenmate.datas.GetRecipeDetailRequest
@@ -25,7 +26,9 @@ class RecipeDetailActivityViewModel(private val recipeRepository: RecipeReposito
     private var isAddBookmarkSuccess: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var isRemoveBookmarkSuccess: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var isEditRecipeSuccess: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
+    private var isCompareSuccess: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var recipeDetail: MutableLiveData<RecipeDetailItem>  = MutableLiveData()
+    private var compareItemList: MutableLiveData<List<CompareItem>>  = MutableLiveData()
 
     fun getIsLoading() = isLoading
     fun getIsSuccess() = isSuccess
@@ -33,7 +36,9 @@ class RecipeDetailActivityViewModel(private val recipeRepository: RecipeReposito
     fun getIsAddBookmarkSuccess() = isAddBookmarkSuccess
     fun getIsRemoveBookmarkSuccess() = isRemoveBookmarkSuccess
     fun getEditRecipeSuccess() = isEditRecipeSuccess
+    fun getCompareSuccess() = isCompareSuccess
     fun getRecipeDetailItem() = recipeDetail
+    fun getCompareItemList() = compareItemList
 
 
     fun getRecipeDetail(username:String, id:String){
@@ -160,6 +165,32 @@ class RecipeDetailActivityViewModel(private val recipeRepository: RecipeReposito
                         isEditRecipeSuccess.value = false
                         errorMessage.value = it.error
                         Log.d("editRecipe error",it.error.toString() )
+                    }
+                }
+            }
+        }
+    }
+    fun compare(id: String) {
+        viewModelScope.launch {
+            recipeRepository.compare(id).collect {
+                when (it) {
+                    is RequestStatus.Waiting -> {
+                        Log.d("waiting", "ture")
+                        isLoading.value = true
+                    }
+
+                    is RequestStatus.Success -> {
+                        isLoading.value = false
+                        isCompareSuccess.value = true
+                        compareItemList.value = it.data?.ingredientsList
+                        Log.d("compare",it.data.toString() )
+                    }
+
+                    is RequestStatus.Error -> {
+                        isLoading.value = false
+                        isCompareSuccess.value = false
+                        errorMessage.value = it.error
+                        Log.d("compare error",it.error.toString() )
                     }
                 }
             }

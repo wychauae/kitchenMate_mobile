@@ -113,6 +113,25 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
         }
         else{
             val errorBody = response.errorBody()?.string()
+            Log.d("addBookmarkRecipe errorBody",errorBody.toString() )
+            if (errorBody != null) {
+                val errorJson = JSONObject(errorBody)
+                val error = errorJson.getString("error")
+                emit(RequestStatus.Error(error))
+            } else {
+                emit(RequestStatus.Error("Unknown error, please try again"))
+            }
+        }
+    }
+    fun compare(id: String) = flow {
+        emit(RequestStatus.Waiting)
+        val response = consumer.compare("Bearer " + AuthToken.getInstance(application.baseContext).token!!, id)
+        if(response.isSuccessful){
+            emit(RequestStatus.Success(response.body()))
+        }
+        else{
+            val errorBody = response.errorBody()?.string()
+            Log.d("addBookmarkRecipe errorBody",errorBody.toString() )
             if (errorBody != null) {
                 val errorJson = JSONObject(errorBody)
                 val error = errorJson.getString("error")
