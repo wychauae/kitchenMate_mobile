@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.kitchenmate.datas.FoodItem
 import com.example.kitchenmate.datas.RecipeItem
 import com.example.kitchenmate.utils.APIService
 

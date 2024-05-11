@@ -1,4 +1,8 @@
-package com.example.kitchenmate.utils
+@GET("recipe/getRecipeDetails")
+    suspend fun getRecipeDetails(
+        @Query("username") username: String,
+        @Query("id") id: String
+    ): Response<GetRecipeDetailResponse>package com.example.kitchenmate.utils
 
 import com.example.kitchenmate.datas.*
 import retrofit2.Response
@@ -16,14 +20,16 @@ interface APIConsumer {
     suspend fun loginUser(@Body body: LoginUserRequest): Response<LoginUserResponse>
 
     @GET("food/")
-    suspend fun getFoodList(@Header("Authorization") authToken: String): Response<GetFoodListResponse>
+    suspend fun getFoodList(@Header("Authorization") authToken: String, @Query("searchText") searchText: String?) : Response<GetFoodListResponse>
 
     @GET("recipe/")
-    suspend fun getRecipeList(): Response<GetRecipeListResponse>
+    suspend fun getRecipeList(@Query("searchText") searchText: String?) : Response<GetRecipeListResponse>
 
-    @GET("recipe/getRecipeDetails")
-    suspend fun getRecipeDetails(
-        @Query("username") username: String,
-        @Query("id") id: String
-    ): Response<GetRecipeDetailResponse>
-}
+    @GET("bookmarkRecipe/")
+    suspend fun getBookmarkRecipeList(@Header("Authorization") authToken: String, @Query("searchText") searchText: String?) : Response<GetRecipeListResponse>
+ 	@GET("recipe/getRecipeDetails")
+   	 suspend fun getRecipeDetails(
+    	    @Query("username") username: String,
+     	   @Query("id") id: String
+   	 ): Response<GetRecipeDetailResponse>
+} 

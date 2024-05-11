@@ -11,26 +11,31 @@ import kotlinx.coroutines.launch
 
 class FoodListFragmentViewModel (private val foodRepository: FoodRepository, val application: Application): ViewModel() {
     private var isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
+    private var isSuccess: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }
     private var errorMessage: MutableLiveData<String> = MutableLiveData()
     private var foodList: MutableLiveData<List<FoodItem>> = MutableLiveData()
 
     fun getIsLoading() = isLoading
+    fun getIsSuccess() = isSuccess
     fun getErrorMessage() = errorMessage
     fun getFoodList() = foodList
 
-    fun fetchFoodList(){
+    fun fetchFoodList(searchText:String?){
         viewModelScope.launch {
-            foodRepository.getFoodList().collect{
+            foodRepository.getFoodList(searchText).collect{
                 when(it) {
                     is RequestStatus.Waiting -> {
                         isLoading.value = true
+                        isSuccess.value = false
                     }
                     is RequestStatus.Success -> {
                         isLoading.value = false
+                        isSuccess.value = true
                         foodList.value = it.data?.foodList
                     }
                     is RequestStatus.Error -> {
                         isLoading.value = false
+                        isSuccess.value = false
                         errorMessage.value = it.error
                     }
                 }

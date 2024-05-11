@@ -27,6 +27,15 @@
             android:indeterminate="true"/>
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No result found"
+        android:textColor="@color/bright_vibrant_orange"
+        android:textSize="18sp"
+        android:id="@+id/noResultFoundText"/>
+
     <androidx.appcompat.widget.SearchView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
