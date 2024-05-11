@@ -32,10 +32,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="No result found"
+        android:text="No results found.\nPlease change the search text or add a food item."
         android:textColor="@color/bright_vibrant_orange"
-        android:textSize="18sp"
-        android:id="@+id/noResultFoundText"/>
+        android:textSize="16sp"
+        android:id="@+id/noResultFoundText"
+        android:lines="2"
+        android:maxLines="2"
+        android:textAlignment="center"/>
 
     <androidx.appcompat.widget.SearchView
         android:layout_width="match_parent"
