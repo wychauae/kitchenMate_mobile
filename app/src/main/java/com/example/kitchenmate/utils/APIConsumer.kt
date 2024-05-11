@@ -26,10 +26,7 @@ interface APIConsumer {
     suspend fun getBookmarkRecipeList(@Header("Authorization") authToken: String, @Query("searchText") searchText: String?) : Response<GetRecipeListResponse>
 
     @GET("recipe/getRecipeDetails")
-   	 suspend fun getRecipeDetails(
-    	    @Query("username") username: String,
-     	   @Query("id") id: String
-   	 ): Response<GetRecipeDetailResponse>
+   	 suspend fun getRecipeDetails(@Query("username") username: String, @Query("id") id: String): Response<GetRecipeDetailResponse>
 
     @POST("recipe/")
     suspend fun insertRecipe(@Header("Authorization") authToken: String, @Body body: InsertRecipeRequest): Response<StatusOnlyResponse>
@@ -43,10 +40,5 @@ interface APIConsumer {
     @PUT("recipe/")
     suspend fun editRecipe(@Header("Authorization") authToken: String, @Body body: EditRecipeRequest): Response<StatusOnlyResponse>
 
-
-    @GET("recipe/compare")
-    suspend fun compare(
-        @Header("Authorization") authToken: String,
-        @Query("id") id: String
-    ): Response<StatusOnlyResponse>
+    @GET("recipe/compare") suspend fun compare(@Header("Authorization") authToken: String, @Query("id") id: String): Response<StatusOnlyResponse>
 } 

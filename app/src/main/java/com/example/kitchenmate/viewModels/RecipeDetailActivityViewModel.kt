@@ -9,13 +9,13 @@ import com.example.kitchenmate.datas.AddBookmarkRequest
 import com.example.kitchenmate.datas.EditRecipeRequest
 import com.example.kitchenmate.datas.FoodItem
 import com.example.kitchenmate.datas.GetRecipeDetailRequest
-import com.example.kitchenmate.datas.InsertRecipeItem
 import com.example.kitchenmate.datas.InsertRecipeRequest
 import com.example.kitchenmate.datas.RecipeDetailItem
 import com.example.kitchenmate.datas.RecipeItem
 import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.RequestStatus
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class RecipeDetailActivityViewModel(private val recipeRepository: RecipeRepository, private val application: Application): ViewModel() {
     private var isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>().apply { value = false }

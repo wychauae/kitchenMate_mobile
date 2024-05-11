@@ -5,7 +5,6 @@ import android.util.Log
 import com.example.kitchenmate.datas.AddBookmarkRequest
 import com.example.kitchenmate.datas.EditRecipeRequest
 import com.example.kitchenmate.datas.GetRecipeDetailRequest
-import com.example.kitchenmate.datas.InsertRecipeItem
 import com.example.kitchenmate.datas.InsertRecipeRequest
 import com.example.kitchenmate.datas.LoginUserRequest
 import com.example.kitchenmate.utils.APIConsumer
@@ -52,8 +51,9 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
 
     fun createRecipe(body: InsertRecipeRequest) = flow{
         emit(RequestStatus.Waiting)
-        Log.d("body is ", body.toString())
+        Log.d("createRecipe", "here")
         val response = consumer.insertRecipe("Bearer " + AuthToken.getInstance(application.baseContext).token!!, body)
+        Log.d("createRecipe", body.toString())
         if(response.isSuccessful){
             emit(RequestStatus.Success(response.body()))
         }
@@ -72,14 +72,12 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
 
     fun addBookmarkRecipe(body: AddBookmarkRequest) = flow {
         emit(RequestStatus.Waiting)
-//        Log.d("addBookmarkRecipe token", AuthToken.getInstance(application.baseContext).token!! )
         val response = consumer.addBookmarkRecipe("Bearer " + AuthToken.getInstance(application.baseContext).token!!, body)
         if(response.isSuccessful){
             emit(RequestStatus.Success(null))
         }
         else{
             val errorBody = response.errorBody()?.string()
-            Log.d("addBookmarkRecipe errorBody",errorBody.toString() )
             if (errorBody != null) {
                 val errorJson = JSONObject(errorBody)
                 val error = errorJson.getString("error")
@@ -92,14 +90,12 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
 
     fun removeBookmarkRecipe(id: String) = flow {
         emit(RequestStatus.Waiting)
-//        Log.d("addBookmarkRecipe token", AuthToken.getInstance(application.baseContext).token!! )
         val response = consumer.removeBookmarkRecipe("Bearer " + AuthToken.getInstance(application.baseContext).token!!, id)
         if(response.isSuccessful){
             emit(RequestStatus.Success(null))
         }
         else{
             val errorBody = response.errorBody()?.string()
-            Log.d("addBookmarkRecipe errorBody",errorBody.toString() )
             if (errorBody != null) {
                 val errorJson = JSONObject(errorBody)
                 val error = errorJson.getString("error")
@@ -117,25 +113,6 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
         }
         else{
             val errorBody = response.errorBody()?.string()
-            Log.d("addBookmarkRecipe errorBody",errorBody.toString() )
-            if (errorBody != null) {
-                val errorJson = JSONObject(errorBody)
-                val error = errorJson.getString("error")
-                emit(RequestStatus.Error(error))
-            } else {
-                emit(RequestStatus.Error("Unknown error, please try again"))
-            }
-        }
-    }
-    fun compare(body: EditRecipeRequest) = flow {
-        emit(RequestStatus.Waiting)
-        val response = consumer.editRecipe("Bearer " + AuthToken.getInstance(application.baseContext).token!!, body)
-        if(response.isSuccessful){
-            emit(RequestStatus.Success(null))
-        }
-        else{
-            val errorBody = response.errorBody()?.string()
-            Log.d("addBookmarkRecipe errorBody",errorBody.toString() )
             if (errorBody != null) {
                 val errorJson = JSONObject(errorBody)
                 val error = errorJson.getString("error")

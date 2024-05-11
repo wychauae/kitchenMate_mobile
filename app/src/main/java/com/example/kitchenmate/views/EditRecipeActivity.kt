@@ -32,7 +32,6 @@ import com.example.kitchenmate.R
 import com.example.kitchenmate.databinding.ActivityDetailBinding
 import com.example.kitchenmate.datas.EditRecipeItem
 import com.example.kitchenmate.datas.EditRecipeRequest
-import com.example.kitchenmate.datas.InsertRecipeItem
 import com.example.kitchenmate.datas.InsertRecipeRequest
 import com.example.kitchenmate.datas.RecipeIngredient
 import com.example.kitchenmate.repositories.RecipeRepository

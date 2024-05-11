@@ -1,13 +1,5 @@
 package com.example.kitchenmate.datas
 
-data class InsertRecipeItem(
-    val name: String,
-    val steps: ArrayList<String>,
-    val ingredients: ArrayList<RecipeIngredient>,
-    val username: String,
-    val createType: String,
-    val imageUrl: String,
-)
-//original is        val imageUrl: String,
+import okhttp3.MultipartBody
 
-data class InsertRecipeRequest(val recipeDetails:InsertRecipeItem)
+data class InsertRecipeRequest(val name: String, val steps: ArrayList<String>, val ingredients: ArrayList<RecipeIngredient>, val username: String, val createType: String, val image: String,)

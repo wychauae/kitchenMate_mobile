@@ -20,17 +20,14 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.example.kitchenmate.R
 import com.example.kitchenmate.databinding.ActivityDetailBinding
-import com.example.kitchenmate.datas.InsertRecipeItem
 import com.example.kitchenmate.datas.InsertRecipeRequest
 import com.example.kitchenmate.datas.RecipeIngredient
 import com.example.kitchenmate.repositories.RecipeRepository
@@ -225,14 +222,12 @@ class CreateRecipeActivity : AppCompatActivity() {
 
                 mViewModel.createRecipe(
                     InsertRecipeRequest(
-                        InsertRecipeItem(
                             name = recipe_name.text.toString(),
                             steps=finalised_step_rows,
                             ingredients = finalised_ingredient_rows,
                             username = AuthToken.getInstance(application.baseContext).username!!,
                             createType = "recipe",
-                            imageUrl = ""
-                        )
+                            image = ""
                     )
                 )
             }
