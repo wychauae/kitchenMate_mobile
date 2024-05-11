@@ -5,6 +5,7 @@ import com.example.kitchenmate.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -35,12 +36,20 @@ class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeView
         val imageUrl = APIService.getBaseUrl() + dataList[position].imageUrl.replace("\\", "/")
         Glide.with(holder.itemView).load(imageUrl).into(holder.recipeImage)
         holder.recipeName.text = dataList[position].name
+
+        holder.editButton.setOnClickListener {
+            //enter recipe details page here
+            val intent = Intent(holder.itemView.context, EditRecipeActivity::class.java)
+            intent.putExtra("recipeID", dataList[position]._id)
+            holder.itemView.context.startActivity(intent)
+        }
         holder.recipeCard.setOnClickListener {
             //enter recipe details page here
             val intent = Intent(holder.itemView.context, RecipeDetailActivity::class.java)
-            intent.putExtra("foodName", dataList[position].name)
+            intent.putExtra("recipeID", dataList[position]._id)
             holder.itemView.context.startActivity(intent)
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -58,11 +67,13 @@ class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var recipeImage: ImageView
     var recipeName: TextView
     var recipeCard: CardView
+    var editButton: ImageButton
 
     init {
         recipeImage = itemView.findViewById<ImageView>(R.id.recipeImage)
         recipeName = itemView.findViewById<TextView>(R.id.recipeName)
         recipeCard = itemView.findViewById<CardView>(R.id.recipeCard)
+        editButton = itemView.findViewById<ImageButton>(R.id.editButton)
     }
 }
 

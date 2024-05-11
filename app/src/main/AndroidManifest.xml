@@ -26,6 +26,9 @@
         <activity
             android:name=".views.RecipeRecyclerViewActivity"
             android:exported="false" />
+        <activity
+            android:name=".views.RecipeListFragment"
+            android:exported="false" />
         <activity android:name=".views.CreateRecipeActivity"
             android:exported="false" />
         <activity android:name=".views.EditRecipeActivity"

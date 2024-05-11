@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -18,16 +19,42 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.kitchenmate.R
+import com.example.kitchenmate.databinding.ActivityDetailBinding
+import com.example.kitchenmate.datas.EditRecipeItem
+import com.example.kitchenmate.datas.EditRecipeRequest
+import com.example.kitchenmate.datas.InsertRecipeItem
+import com.example.kitchenmate.datas.InsertRecipeRequest
+import com.example.kitchenmate.datas.RecipeIngredient
+import com.example.kitchenmate.repositories.RecipeRepository
+import com.example.kitchenmate.utils.APIService
+import com.example.kitchenmate.utils.AuthToken
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModel
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModelFactory
 
 class EditRecipeActivity : AppCompatActivity() {
     var pickedPhoto : Uri? = null  // show address of photo on phone
     var pickedBitMap : Bitmap? = null //can use bitMap to transfer the photo from gallery to app
+
+    private lateinit var mBinding: ActivityDetailBinding
+    private lateinit var mViewModel: RecipeDetailActivityViewModel
+    private lateinit var recipeID:String
+
+
+    private val ingredient_rows = arrayListOf<LinearLayout>()
+    private val step_rows = arrayListOf<LinearLayout>()
+    private lateinit var ingredientContainer:LinearLayout
+    private lateinit var stepContainer:LinearLayout
+
 
     fun pickPhoto(view: View){
         if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -78,6 +105,9 @@ class EditRecipeActivity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_edit_recipe)
 
+            ingredientContainer = findViewById<LinearLayout>(R.id.verticalIngredientInput)
+            stepContainer = findViewById<LinearLayout>(R.id.verticalStepInput)
+
             val save_button = findViewById<Button>(R.id.btnSaveChange)
             val back_button = findViewById<ImageButton>(R.id.backButton)
             val add_ingredient_button = findViewById<ImageButton>(R.id.addIngredientButton)
@@ -87,66 +117,21 @@ class EditRecipeActivity : AppCompatActivity() {
 
 
             val recipe_name = findViewById<EditText>(R.id.etRecipeName)
-            val recipe_image = findViewById<ImageView>(R.id.recipeImageView)
-
-            var oldDrawable: Drawable? = recipe_image.getDrawable()
-
-
-            val ingredient_rows = arrayListOf<LinearLayout>()
-            val step_rows = arrayListOf<LinearLayout>()
-            val ingredientContainer = findViewById<LinearLayout>(R.id.verticalIngredientInput)
-            val stepContainer = findViewById<LinearLayout>(R.id.verticalStepInput)
 
             //remove the default input row
             ingredientContainer.removeView(findViewById<LinearLayout>(R.id.ingredientInput))
             stepContainer.removeView(findViewById<LinearLayout>(R.id.stepInput))
 
-            //following set the text in the EditText
-            val dummy_name = "Egg fried rice"
-            val dummy_steps = arrayListOf<String>("Cook the rice ", "Heat 2 tbsp of the oil")
-            val dummy_image = R.drawable.food5
-            val dummy_ingredientList: List<itemIngredient> = listOf(itemIngredient("ingredient 1", "amount 1", "unit","enough"),itemIngredient("ingredient 2", "amount 2", "unit","enough"),itemIngredient("ingredient 3", "amount 3", "unit","enough"),
-                itemIngredient("ingredient 4", "amount 4", "unit","not enough"),itemIngredient("ingredient 5", "amount 5", "unit","enough"),itemIngredient("ingredient 6", "amount 6", "unit","enough"),
-                itemIngredient("ingredient 7", "amount 7", "unit","not enough"),itemIngredient("ingredient 8", "amount 8", "unit","enough"),itemIngredient("ingredient 9", "amount 9", "unit","enough"),itemIngredient("ingredient 10", "amount 10", "unit","enough"))
 
-            recipe_name.setText(dummy_name)
-            recipe_image.setImageResource(dummy_image)
 
-            for (ingredient_row in dummy_ingredientList){
-                val row = layoutInflater.inflate(R.layout.ingredient_row, null) as LinearLayout
-                val delete_button = row.findViewById<ImageButton>(R.id.row_deleteButton)
-                // Add row to container
-                ingredientContainer.addView(row)
-                ingredient_rows.add(row) //track the newly added row without ID
-
-                val ingredient_editText = row.findViewById<EditText>(R.id.etRecipeIngredientFood)
-                val amonunt_editText = row.findViewById<EditText>(R.id.etRecipeIngredientAmount)
-                val amountUnit_editText = row.findViewById<EditText>(R.id.etRecipeIngredientAmountUnit)
-
-                ingredient_editText.setText(ingredient_row.ingredientName)
-                amonunt_editText.setText(ingredient_row.amount)
-                amountUnit_editText.setText(ingredient_row.amountUnit)
-
-                delete_button.setOnClickListener {
-                    ingredientContainer.removeView(row)
-                    ingredient_rows.remove(row)
-                }
-            }
-            for (step in dummy_steps){
-                val row = layoutInflater.inflate(R.layout.step_row, null) as LinearLayout
-                val delete_button = row.findViewById<ImageButton>(R.id.rowDeleteStepButton)
-                // Add row to container
-                stepContainer.addView(row)
-                step_rows.add(row) //track the newly added row without ID
-
-                val stepRow_editText = row.findViewById<EditText>(R.id.etStepRow)
-                stepRow_editText.setText(step)
-
-                delete_button.setOnClickListener {
-                    stepContainer.removeView(row)
-                    step_rows.remove(row)
-                }
-            }
+            mBinding = ActivityDetailBinding.inflate(LayoutInflater.from(this))
+            mViewModel = ViewModelProvider(this, RecipeDetailActivityViewModelFactory(
+                RecipeRepository(
+                    APIService.getService(), application), application)
+            )[RecipeDetailActivityViewModel::class.java]
+            recipeID = intent.getStringExtra("recipeID")!!
+            getRecipeDetail()
+            setUpObservers()
 
 
             delete_ingredient_row_button.setOnClickListener {
@@ -195,7 +180,7 @@ class EditRecipeActivity : AppCompatActivity() {
                     return@setOnClickListener;
                 }
 
-                var finalised_ingredient_rows =""
+                var finalised_ingredient_rows = ArrayList<RecipeIngredient>()
                 for (row in ingredient_rows) {
                     val name_editText = row.getChildAt(0) as EditText
                     val amount_editText = row.getChildAt(1) as EditText
@@ -212,31 +197,135 @@ class EditRecipeActivity : AppCompatActivity() {
                         Toast.makeText(this, "Unit cannot be empty!", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener;
                     }
-                    finalised_ingredient_rows += (name_editText.text.toString() + amount_editText.text.toString()+ amountUnit_editText.text.toString())
+                    finalised_ingredient_rows.add(RecipeIngredient(name = name_editText.text.toString(), amount =  Integer.parseInt(amount_editText.text.toString()), amountUnit = amountUnit_editText.text.toString()))
                 }
 
                 ///get the steps
-                var finalised_step_rows = ""
+                var finalised_step_rows = ArrayList<String>()
                 for (row in step_rows) {
                     val editText = row.getChildAt(0) as EditText
                     if(editText.text.toString().length == 0){
                         Toast.makeText(this, "Step cannot be empty!", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener;
                     }
-                    finalised_step_rows += editText.text.toString()
+                    finalised_step_rows.add(editText.text.toString())
                 }
 
+                val recipe_image = findViewById<ImageView>(R.id.recipeImageView)
                 //call API
-
-                Toast.makeText(this, recipeName+" "+finalised_ingredient_rows+" "+finalised_step_rows, Toast.LENGTH_LONG).show()
-
-                //back to recycler view
-                val it = Intent(this, RecipeRecyclerViewActivity::class.java)
-                startActivity(it)
+                //recipe_image.getDrawable().toString()
+                mViewModel.editRecipe(
+                    EditRecipeRequest(
+                        EditRecipeItem(
+                            name = recipe_name.text.toString(),
+                            steps=finalised_step_rows,
+                            ingredients = finalised_ingredient_rows,
+                            username = AuthToken.getInstance(application.baseContext).username!!,
+                            createType = "recipe",
+                            id = recipeID,
+                            imageUrl = ""
+                        )
+                    )
+                )
             }
             back_button.setOnClickListener {
-                val it = Intent(this, RecipeRecyclerViewActivity::class.java)
+                val it = Intent(this, HomeActivity::class.java)
                 startActivity(it)
             }
         }
+        private fun setUpObservers(){
+            Log.d("detail recipeID",
+                "here"
+            )
+            mViewModel.getIsLoading().observe(this){
+            }
+            mViewModel.getEditRecipeSuccess().observe(this){
+                if(it){
+                    Toast.makeText(this, "Successfully edit the recipe", Toast.LENGTH_LONG).show()
+                    //back to recycler view
+                    val it = Intent(this, HomeActivity::class.java)
+                    startActivity(it)
+                }
+            }
+            mViewModel.getIsSuccess().observe(this){
+    //            var recipeDetailItem = mViewModel.getRecipeDetailItem().value!!
+                Log.d("getIsSuccess",
+                    it.toString()
+                )
+                if(it) {
+                    mViewModel.getRecipeDetailItem().observe(this) {
+                        val recipe_name = findViewById<EditText>(R.id.etRecipeName)
+                        val recipe_image = findViewById<ImageView>(R.id.recipeImageView)
+
+                        Log.d("detail foodName", it.name.toString())
+                        Log.d("detail photo", it.imageUrl.toString())
+                        Log.d("detail ingredient_list", it.ingredients.toString())
+                        Log.d("detail step_list", it.steps.toString())
+                        Log.d("detail is_Bookmarked", it.isBookmarked.toString())
+
+                        recipe_name.setText(it.name)
+
+                        val imageUrl = APIService.getBaseUrl() + it.imageUrl.replace("\\", "/")
+                        Glide.with(findViewById<ImageView>(R.id.recipeImageView)).load(imageUrl).into(recipe_image)
+
+
+                        //following set the text in the EditText
+                        val steps_array: ArrayList<String> = it.steps
+                        val ingredientList_array: List<RecipeIngredient> = it.ingredients
+
+                        for (ingredient_row in ingredientList_array) {
+                            val row = layoutInflater.inflate(
+                                R.layout.ingredient_row,
+                                null
+                            ) as LinearLayout
+                            val delete_button = row.findViewById<ImageButton>(R.id.row_deleteButton)
+                            // Add row to container
+                            ingredientContainer.addView(row)
+                            ingredient_rows.add(row) //track the newly added row without ID
+
+                            val ingredient_editText =
+                                row.findViewById<EditText>(R.id.etRecipeIngredientFood)
+                            val amonunt_editText =
+                                row.findViewById<EditText>(R.id.etRecipeIngredientAmount)
+                            val amountUnit_editText =
+                                row.findViewById<EditText>(R.id.etRecipeIngredientAmountUnit)
+
+                            ingredient_editText.setText(ingredient_row.name)
+                            amonunt_editText.setText(ingredient_row.amount.toString())
+                            amountUnit_editText.setText(ingredient_row.amountUnit)
+
+                            delete_button.setOnClickListener {
+                                ingredientContainer.removeView(row)
+                                ingredient_rows.remove(row)
+                            }
+                        }
+                        for (step in steps_array) {
+                            val row =
+                                layoutInflater.inflate(R.layout.step_row, null) as LinearLayout
+                            val delete_button =
+                                row.findViewById<ImageButton>(R.id.rowDeleteStepButton)
+                            // Add row to container
+                            stepContainer.addView(row)
+                            step_rows.add(row) //track the newly added row without ID
+
+                            val stepRow_editText = row.findViewById<EditText>(R.id.etStepRow)
+                            stepRow_editText.setText(step)
+
+                            delete_button.setOnClickListener {
+                                stepContainer.removeView(row)
+                                step_rows.remove(row)
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+
+        private fun getRecipeDetail() {
+            mViewModel.getRecipeDetail(AuthToken.getInstance(application.baseContext).username!!,recipeID!!)
+        }
+
 }

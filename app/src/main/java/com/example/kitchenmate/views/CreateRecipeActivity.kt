@@ -10,7 +10,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
+import android.util.Base64.DEFAULT
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -23,11 +26,29 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.kitchenmate.R
+import com.example.kitchenmate.databinding.ActivityDetailBinding
+import com.example.kitchenmate.datas.InsertRecipeItem
+import com.example.kitchenmate.datas.InsertRecipeRequest
+import com.example.kitchenmate.datas.RecipeIngredient
+import com.example.kitchenmate.repositories.RecipeRepository
+import com.example.kitchenmate.utils.APIService
+import com.example.kitchenmate.utils.AuthToken
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModel
+import com.example.kitchenmate.viewModels.RecipeDetailActivityViewModelFactory
+import kotlinx.coroutines.CoroutineStart
+import java.io.ByteArrayOutputStream
 
 class CreateRecipeActivity : AppCompatActivity() {
     var pickedPhoto : Uri? = null  // show address of photo on phone
     var pickedBitMap : Bitmap? = null //can use bitMap to transfer the photo from gallery to app
+
+    private lateinit var mBinding: ActivityDetailBinding
+    private lateinit var mViewModel: RecipeDetailActivityViewModel
+
+    private lateinit var imageBitmap: Bitmap
 
     fun pickPhoto(view: View){
         if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -56,17 +77,21 @@ class CreateRecipeActivity : AppCompatActivity() {
             val data: Intent? = result.data
             if (data != null) {
                 pickedPhoto = data.data
+//                Log.d("photo URI",pickedPhoto.toString())
             }
             val recipeImageView: ImageView = findViewById<ImageView>(R.id.recipeImageView)
             if (pickedPhoto != null) {
                 if (Build.VERSION.SDK_INT >= 28) {
                     val source = ImageDecoder.createSource(this.contentResolver, pickedPhoto!!)
                     pickedBitMap = ImageDecoder.decodeBitmap(source)
+//                    Log.d("pickedBitMap URI",pickedBitMap.toString())
                     recipeImageView.setImageBitmap(pickedBitMap)
+                    imageBitmap= pickedBitMap as Bitmap
                 } else {
                     pickedBitMap =
                         MediaStore.Images.Media.getBitmap(this.contentResolver, pickedPhoto)
                     recipeImageView.setImageBitmap(pickedBitMap)
+                    imageBitmap= pickedBitMap as Bitmap
                 }
             }
         }
@@ -94,6 +119,14 @@ class CreateRecipeActivity : AppCompatActivity() {
             val step_rows = arrayListOf<LinearLayout>(findViewById<LinearLayout>(R.id.stepInput))
             val ingredientContainer = findViewById<LinearLayout>(R.id.verticalIngredientInput)
             val stepContainer = findViewById<LinearLayout>(R.id.verticalStepInput)
+
+            mBinding = ActivityDetailBinding.inflate(LayoutInflater.from(this))
+            mViewModel = ViewModelProvider(this, RecipeDetailActivityViewModelFactory(
+                RecipeRepository(
+                    APIService.getService(), application), application)
+            )[RecipeDetailActivityViewModel::class.java]
+
+            setUpObservers()
 
             delete_ingredient_row_button.setOnClickListener {
                 val row = findViewById<LinearLayout>(R.id.ingredientInput)
@@ -146,7 +179,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                     return@setOnClickListener;
                 }
 
-                var finalised_ingredient_rows =""
+                var finalised_ingredient_rows = ArrayList<RecipeIngredient>()
 
                 for (row in ingredient_rows) {
                     val name_editText = row.getChildAt(0) as EditText
@@ -164,31 +197,68 @@ class CreateRecipeActivity : AppCompatActivity() {
                         Toast.makeText(this, "Unit cannot be empty!", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener;
                     }
-                    finalised_ingredient_rows += (name_editText.text.toString() + amount_editText.text.toString()+ amountUnit_editText.text.toString())
+                    finalised_ingredient_rows.add(RecipeIngredient(name = name_editText.text.toString(), amount =  Integer.parseInt(amount_editText.text.toString()), amountUnit = amountUnit_editText.text.toString()))
+//                    finalised_ingredient_rows += (name_editText.text.toString() + amount_editText.text.toString()+ amountUnit_editText.text.toString())
                 }
 
                 ///get the steps
-                var finalised_step_rows = ""
+                var finalised_step_rows = ArrayList<String>()
                 for (row in step_rows) {
                     val editText = row.getChildAt(0) as EditText
                     if(editText.text.toString().length == 0){
                         Toast.makeText(this, "Step cannot be empty!", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener;
                     }
-                    finalised_step_rows += editText.text.toString()
+                    finalised_step_rows.add(editText.text.toString())
                 }
 
-                //call API
+                //testing Sending image to MongoDB
+                val imageByteArray = ByteArrayOutputStream().use { out ->
+                    imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                    out.toByteArray()
+                }
+                val base64String = Base64.encodeToString(imageByteArray, Base64.DEFAULT)
+                Log.d("byte  base64String", base64String.toString())
+                //original is
+                //imageUrl = recipe_image.getDrawable().toString()
 
-                Toast.makeText(this, recipeName+" "+finalised_ingredient_rows+" "+finalised_step_rows, Toast.LENGTH_LONG).show()
 
-                //back to recycler view
-                val it = Intent(this, RecipeRecyclerViewActivity::class.java)
-                startActivity(it)
+                mViewModel.createRecipe(
+                    InsertRecipeRequest(
+                        InsertRecipeItem(
+                            name = recipe_name.text.toString(),
+                            steps=finalised_step_rows,
+                            ingredients = finalised_ingredient_rows,
+                            username = AuthToken.getInstance(application.baseContext).username!!,
+                            createType = "recipe",
+                            imageUrl = ""
+                        )
+                    )
+                )
             }
             back_button.setOnClickListener {
-                val it = Intent(this, RecipeRecyclerViewActivity::class.java)
+                val it = Intent(this, HomeActivity::class.java)
                 startActivity(it)
             }
         }
+    private fun setUpObservers(){
+
+        mViewModel.getIsLoading().observe(this){
+            //            mBinding.progressBar.isVisible = it
+        }
+        mViewModel.getIsCreateSuccess().observe(this){
+            Log.d("getIsSuccess",it.toString())
+            if(it){
+                Toast.makeText(this, "You have successfully created the recipe", Toast.LENGTH_LONG).show()
+                //back to recycler view
+                val it = Intent(this, HomeActivity::class.java)
+                startActivity(it)
+            }else{
+
+            }
+
+
+        }
+
+    }
 }
