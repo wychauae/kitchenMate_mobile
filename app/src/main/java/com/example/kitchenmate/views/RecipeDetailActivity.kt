@@ -180,7 +180,7 @@ class RecipeDetailActivity : AppCompatActivity() {
                         }
                         Log.d("adapter_compare_step_List is", adapter_ingredient_List.toString());
                         ingredientAdapter.notifyDataSetChanged()
-                        Toast.makeText(this, "Successfully compare with existing ingredient", android.widget.Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Lets make this meal!!", android.widget.Toast.LENGTH_SHORT).show()
                     }
 
                 } else {
