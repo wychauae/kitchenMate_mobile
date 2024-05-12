@@ -58,6 +58,11 @@ class FoodListFragment : Fragment() {
             }
         })
         setUpObservers()
+        val createFoodFAB = mBinding.createFoodFAB
+        createFoodFAB.setOnClickListener {
+            val intent = Intent(requireContext(), CreateFoodActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setUpObservers(){

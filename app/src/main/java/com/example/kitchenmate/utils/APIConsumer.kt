@@ -5,10 +5,12 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface APIConsumer {
     @POST("users/register")
@@ -56,4 +58,19 @@ interface APIConsumer {
 
     @DELETE("foodrecord/confirmExpired/{id}")
     suspend fun confirmExpired(@Header("Authorization") authToken: String,  @Path("id") id: String) : Response<StatusOnlyResponse>
+    
+    @POST("food/")
+    suspend fun createFood(@Header("Authorization") authToken: String, @Body body: CreateFoodRequest) : Response<CreateFoodResponse>
+
+    @GET("foodrecord/{foodId}")
+    suspend fun getFoodRecord(@Header("Authorization") authToken: String, @Path("foodId") foodId: String) : Response<GetFoodRecordByFoodIdResponse>
+
+    @GET("foodrecordlog/{foodId}")
+    suspend fun getFoodRecordLog(@Header("Authorization") authToken: String, @Path("foodId") foodId: String) : Response<GetFoodRecordLogByFoodIdResponse>
+
+    @PATCH("foodrecord/{foodRecordId}")
+    suspend fun decreaseFoodRecord(@Header("Authorization") authToken: String, @Path("foodRecordId") foodRecordId: String, @Body body: DecreaseFoodRecordByFoodIdRequest) : Response<DecreaseFoodRecordByFoodIdResponse>
+
+    @POST("foodrecord/")
+    suspend fun insertFoodRecord(@Header("Authorization") authToken: String, @Body body: InsertFoodRecordRequest) : Response<InsertFoodRecordResponse>
 } 

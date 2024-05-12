@@ -39,9 +39,19 @@
         <activity
             android:name=".views.CreateRecipeActivity"
             android:exported="false" />
+        <activity android:name=".views.CreateFoodActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity android:name=".views.FoodDetailActivity"
+            android:exported="false" />
+        <activity android:name=".views.FoodRecordActivity"
+            android:exported="false" />
+        <activity android:name=".views.DecreaseFoodRecordActivity"
+            android:exported="false" />
         <activity
             android:name=".views.EditRecipeActivity"
             android:exported="false" />
+
         <activity
             android:name=".views.LoginActivity"
             android:exported="true"
