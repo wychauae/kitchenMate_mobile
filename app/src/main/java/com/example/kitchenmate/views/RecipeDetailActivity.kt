@@ -46,6 +46,7 @@ class RecipeDetailActivity : AppCompatActivity() {
     private lateinit var bookMark_Button:ImageButton
     private lateinit var ingredient_list :ArrayList<RecipeIngredient>
     private lateinit var step_list :ArrayList<String>
+    private lateinit var fragment_message :String
     private var is_Bookmarked by Delegates.notNull<Boolean>()
 
 
@@ -80,13 +81,25 @@ class RecipeDetailActivity : AppCompatActivity() {
         mBinding = ActivityDetailBinding.inflate(LayoutInflater.from(this))
         mViewModel = ViewModelProvider(this, RecipeDetailActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[RecipeDetailActivityViewModel::class.java]
         recipeID = intent.getStringExtra("recipeID")!!
+        fragment_message = intent.getStringExtra("fragment message")!!
+        Log.d("fragment message is", fragment_message)
         getRecipeDetail()   // call view model to connect API
 
 
         back_button.setOnClickListener {
-            val it = Intent(this, HomeActivity::class.java)
-            it.putExtra("fragment", "Recipe")
-            startActivity(it)
+            if (fragment_message == "Recipe"){
+                val it = Intent(this, HomeActivity::class.java)
+                it.putExtra("fragment", "Recipe")
+                startActivity(it)
+            }else if (fragment_message == "Bookmark"){
+                val it = Intent(this, HomeActivity::class.java)
+                it.putExtra("fragment", "BookMark")
+                startActivity(it)
+            }else if (fragment_message == "Manage"){
+                val it = Intent(this, MyRecipeListActivity::class.java)
+                it.putExtra("fragment", "UserProfile")
+                startActivity(it)
+            }
         }
         ingredient_button.setOnClickListener {
             description_text.setText("ingredient")

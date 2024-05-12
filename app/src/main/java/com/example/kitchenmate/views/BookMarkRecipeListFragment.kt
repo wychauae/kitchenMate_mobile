@@ -46,7 +46,7 @@ class BookMarkRecipeListFragment : Fragment() {
         val gridLayoutManager = GridLayoutManager(requireContext(), 1)
         bookmarkRecipeRecyclerView = mBinding.bookmarkRecipeRecyclerView
         bookmarkRecipeRecyclerView.layoutManager = gridLayoutManager
-        recipeAdapter = RecipeAdapter(emptyList())
+        recipeAdapter = RecipeAdapter("Bookmark", emptyList())
         bookmarkRecipeRecyclerView.adapter = recipeAdapter
         searchView = mBinding.bookmarkRecipeSearch
         searchView.clearFocus()

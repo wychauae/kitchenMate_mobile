@@ -40,13 +40,22 @@ class HomeActivity : AppCompatActivity() {
         } else if (fragment_message == "BookMark") {
             mBinding.bottomNavigation.selectedItemId = R.id.bottomBookmark
             openFragment(BookMarkRecipeListFragment())
-        } else if (fragment_message === "UserProfile") {
+        } else if (fragment_message == "UserProfile") {
             mBinding.bottomNavigation.selectedItemId =  R.id.bottomUserProfile
             openFragment(UserProfileFragment())
         }
     }
 
     private fun openFragment(fragment: Fragment){
+        //for UserProfileFragment only
+//        if(fragment.toString().contains("UserProfileFragment")){
+//            Log.d("UserProfileFragment", "UserProfileFragment")
+//            val bundle = Bundle()
+//            bundle.putString("fragment message", "UserProfileFragment")
+//            fragment.arguments = bundle
+//        }
+
+
         val fragmentTransaction: FragmentTransaction = mFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_container, fragment)
         fragmentTransaction.commit()

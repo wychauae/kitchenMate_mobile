@@ -228,7 +228,7 @@ class EditRecipeActivity : AppCompatActivity() {
                 )
             }
             back_button.setOnClickListener {
-                val it = Intent(this, HomeActivity::class.java)
+                val it = Intent(this, MyRecipeListActivity::class.java)
                 startActivity(it)
             }
         }
@@ -242,7 +242,7 @@ class EditRecipeActivity : AppCompatActivity() {
                 if(it){
                     Toast.makeText(this, "Successfully edit the recipe", Toast.LENGTH_LONG).show()
                     //back to recycler view
-                    val it = Intent(this, HomeActivity::class.java)
+                    val it = Intent(this, MyRecipeListActivity::class.java)
                     startActivity(it)
                 }
             }

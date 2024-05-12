@@ -3,6 +3,7 @@ package com.example.kitchenmate.views
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,12 @@ class UserProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+//        val message = arguments?.getString("fragment message")
+//        Log.d("message is", message.toString())
+//        if(message == "UserProfileFragment"){
+//            startActivity(Intent(requireContext(), MyRecipeListActivity::class.java))
+//        }
+
         mBinding = FragmentUserProfileBinding.inflate(inflater, container, false)
         return mBinding.root
     }
