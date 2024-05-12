@@ -81,7 +81,7 @@ class InsertFoodRecordActivity : AppCompatActivity() {
         }
 
         backButton.setOnClickListener {
-            val intent = Intent(this, FoodRecordActivity::class.java)
+            val intent = Intent(this, FoodDetailActivity::class.java)
             intent.putExtra("name", foodName)
             intent.putExtra("description", description)
             intent.putExtra("amount", amount)
