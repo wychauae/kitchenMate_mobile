@@ -55,14 +55,14 @@
                 android:textColor="@android:color/white"/>
 
 
-<!--            <ImageButton-->
-<!--                android:id="@+id/btnIngredient"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:backgroundTint="@color/bright_vibrant_orange"-->
-<!--                android:src="@drawable/baseline_edit"-->
-<!--                android:contentDescription="Edit Food" />-->
+            <ImageButton
+                android:id="@+id/btnIngredient"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/bright_vibrant_orange"
+
+                android:contentDescription="Edit Food" />
 
         </LinearLayout>
         <LinearLayout
