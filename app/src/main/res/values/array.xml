@@ -3,5 +3,6 @@
     <string-array name="unit_array">
         <item>kg</item>
         <item>mL</item>
+        <item>unit</item>
     </string-array>
 </resources>

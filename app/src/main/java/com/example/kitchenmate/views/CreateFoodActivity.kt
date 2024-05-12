@@ -45,7 +45,7 @@ import androidx.core.view.isVisible
 class CreateFoodActivity : AppCompatActivity() {
     var pickedPhoto : Uri? = null  // show address of photo on phone
     var pickedBitMap : Bitmap? = null //can use bitMap to transfer the photo from gallery to app
-
+    private lateinit var imageBitmap: Bitmap
     fun pickPhoto(view: View){
         if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) { // izin alınmadıysa
@@ -68,22 +68,28 @@ class CreateFoodActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+
+
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             val data: Intent? = result.data
             if (data != null) {
                 pickedPhoto = data.data
+//                Log.d("photo URI",pickedPhoto.toString())
             }
             val recipeImageView: ImageView = findViewById<ImageView>(R.id.recipeImageView)
             if (pickedPhoto != null) {
                 if (Build.VERSION.SDK_INT >= 28) {
                     val source = ImageDecoder.createSource(this.contentResolver, pickedPhoto!!)
                     pickedBitMap = ImageDecoder.decodeBitmap(source)
+//                    Log.d("pickedBitMap URI",pickedBitMap.toString())
                     recipeImageView.setImageBitmap(pickedBitMap)
+                    imageBitmap= pickedBitMap as Bitmap
                 } else {
                     pickedBitMap =
                         MediaStore.Images.Media.getBitmap(this.contentResolver, pickedPhoto)
                     recipeImageView.setImageBitmap(pickedBitMap)
+                    imageBitmap= pickedBitMap as Bitmap
                 }
             }
         }
@@ -99,7 +105,7 @@ class CreateFoodActivity : AppCompatActivity() {
             val back_button = findViewById<ImageButton>(R.id.backButton)
             val etFoodName = findViewById<EditText>(R.id.etFoodName)
             val etDescription = findViewById<EditText>(R.id.etDescription)
-            val recipe_image = findViewById<ImageView>(R.id.foodImageView)
+            val recipe_image = findViewById<ImageView>(R.id.recipeImageView)
             val units = listOf("kg","mL")
             val unit_spinner = findViewById<Spinner>(R.id.unit_spinner)
             var oldDrawable: Drawable? = recipe_image.getDrawable()
