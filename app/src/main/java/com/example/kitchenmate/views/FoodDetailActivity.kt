@@ -57,6 +57,7 @@ class FoodDetailActivity : AppCompatActivity() {
         val tvAmount: TextView = findViewById<TextView>(R.id.tvAmount)
         val backButton = findViewById<ImageButton>(R.id.backButton)
         val consumeButton = findViewById<Button>(R.id.btnConsume)
+        val replenishButton = findViewById<Button>(R.id.btnRestock)
         val food_image = findViewById<ImageView>(R.id.foodImageView)
         mViewModel = ViewModelProvider(this, FoodDetailActivityViewModelFactory(FoodRepository(APIService.getService(), application), application))[FoodDetailActivityViewModel::class.java]
 
@@ -86,6 +87,16 @@ class FoodDetailActivity : AppCompatActivity() {
 
         consumeButton.setOnClickListener{
             val intent = Intent(this, FoodRecordActivity::class.java)
+            intent.putExtra("name", foodName)
+            intent.putExtra("description", description)
+            intent.putExtra("amount", amount)
+            intent.putExtra("amountUnit", amountUnit)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
+
+        replenishButton.setOnClickListener{
+            val intent = Intent(this, InsertFoodRecordActivity::class.java)
             intent.putExtra("name", foodName)
             intent.putExtra("description", description)
             intent.putExtra("amount", amount)
