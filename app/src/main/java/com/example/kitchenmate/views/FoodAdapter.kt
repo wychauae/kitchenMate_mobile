@@ -47,6 +47,9 @@ class FoodAdapter(dataList: List<FoodItem>) : RecyclerView.Adapter<FoodViewHolde
             intent.putExtra("amount", dataList[position].amount)
             intent.putExtra("amountUnit", dataList[position].amountUnit)
             intent.putExtra("id", dataList[position]._id)
+
+            val imageUrl = APIService.getBaseUrl() + dataList[position].imageUrl.replace("\\", "/")
+            intent.putExtra("imageUrl",imageUrl)
             holder.itemView.context.startActivity(intent)
         }
     }

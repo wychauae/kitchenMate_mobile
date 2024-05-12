@@ -30,6 +30,7 @@ import com.example.kitchenmate.viewModels.LoginActivityViewModel
 import com.example.kitchenmate.viewModels.LoginActivityViewModelFactory
 import com.example.kitchenmate.viewModels.RegisterActivityViewModel
 import com.example.kitchenmate.viewModels.RegisterActivityViewModelFactory
+import com.bumptech.glide.Glide
 
 class FoodDetailActivity : AppCompatActivity() {
 
@@ -40,9 +41,8 @@ class FoodDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_food_detail)
-
-        mBinding = ActivityFoodDetailBinding.inflate(LayoutInflater.from(this))
+        mBinding = ActivityFoodDetailBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 //        mViewModel = ViewModelProvider(this, DActivityViewModelFactory(RecipeRepository(APIService.getService(), application), application))[DetailActivityViewModel::class.java]
         val foodName = intent.getStringExtra("name")
         val foodPhoto = intent.getStringExtra("photo")
@@ -50,6 +50,7 @@ class FoodDetailActivity : AppCompatActivity() {
         val amount = intent.getStringExtra("amount")
         val amountUnit = intent.getStringExtra("amountUnit")
         val id = intent.getStringExtra("id")
+        val imageUrl = intent.getStringExtra("imageUrl")
         val tvName: TextView = findViewById <TextView>(R.id.tvName)
         val tvDescription: TextView = findViewById(R.id.tvDescription)
         val tvAmount: TextView = findViewById<TextView>(R.id.tvAmount)
@@ -57,6 +58,9 @@ class FoodDetailActivity : AppCompatActivity() {
         val consumeButton = findViewById<Button>(R.id.btnConsume)
         val replenishButton = findViewById<Button>(R.id.btnRestock)
         val food_image = findViewById<ImageView>(R.id.foodImageView)
+
+        Glide.with(this).load(imageUrl).into(food_image)
+
         mViewModel = ViewModelProvider(this, FoodDetailActivityViewModelFactory(FoodRepository(APIService.getService(), application), application))[FoodDetailActivityViewModel::class.java]
 
         tvName.text = foodName
@@ -90,6 +94,7 @@ class FoodDetailActivity : AppCompatActivity() {
             intent.putExtra("amount", amount)
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 
@@ -100,6 +105,7 @@ class FoodDetailActivity : AppCompatActivity() {
             intent.putExtra("amount", amount)
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 

@@ -43,6 +43,7 @@ class FoodRecordActivity : AppCompatActivity() {
     private lateinit var id: String
     private lateinit var amount: String
     private lateinit var amountUnit: String
+    private lateinit var imageUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +53,7 @@ class FoodRecordActivity : AppCompatActivity() {
         foodName = intent.getStringExtra("name").toString()
         description = intent.getStringExtra("description").toString()
         amount = intent.getStringExtra("amount").toString()
+        imageUrl = intent.getStringExtra("imageUrl").toString()
         amountUnit = intent.getStringExtra("amountUnit").toString()
         id = intent.getStringExtra("id").toString()
         val backButton = findViewById<ImageButton>(R.id.backButton)
@@ -70,6 +72,7 @@ class FoodRecordActivity : AppCompatActivity() {
                 putExtra("amount", amount)
                 putExtra("amountUnit", amountUnit)
                 putExtra("id", id)
+                putExtra("imageUrl", imageUrl)
                 putExtra("foodRecordId", item._id)
                 putExtra("expiryDate", formattedDate)
                 putExtra("remainingAmount", item.amount)
@@ -96,6 +99,7 @@ class FoodRecordActivity : AppCompatActivity() {
             intent.putExtra("amount", amount)
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 

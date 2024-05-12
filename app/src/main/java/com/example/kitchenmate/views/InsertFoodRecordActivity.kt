@@ -43,6 +43,7 @@ class InsertFoodRecordActivity : AppCompatActivity() {
         val amount = intent.getStringExtra("amount")
         val amountUnit = intent.getStringExtra("amountUnit")
         val id = intent.getStringExtra("id")
+        val imageUrl = intent.getStringExtra("imageUrl")
         val backButton = findViewById<ImageButton>(R.id.backButton)
         val applyButton = findViewById<Button>(R.id.btnApply)
         val etAmount = findViewById<EditText>(R.id.etAmount)
@@ -77,6 +78,7 @@ class InsertFoodRecordActivity : AppCompatActivity() {
             intent.putExtra("amount", (amount.toString().toInt()+insertAmount).toString())
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 
@@ -87,6 +89,7 @@ class InsertFoodRecordActivity : AppCompatActivity() {
             intent.putExtra("amount", amount)
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 

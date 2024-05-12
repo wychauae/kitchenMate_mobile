@@ -53,6 +53,7 @@ class DecreaseFoodRecordActivity : AppCompatActivity() {
         val amount = intent.getStringExtra("amount")
         val amountUnit = intent.getStringExtra("amountUnit")
         val id = intent.getStringExtra("id")
+        val imageUrl = intent.getStringExtra("imageUrl")
         val foodRecordId = intent.getStringExtra("foodRecordId")
         val remainingAmount = intent.getStringExtra("remainingAmount").toString()
         val expiryDate = intent.getStringExtra("expiryDate")
@@ -89,6 +90,7 @@ class DecreaseFoodRecordActivity : AppCompatActivity() {
             intent.putExtra("amount", (amount.toString().toInt()-decreaseAmount).toString())
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 
@@ -99,6 +101,7 @@ class DecreaseFoodRecordActivity : AppCompatActivity() {
             intent.putExtra("amount", amount)
             intent.putExtra("amountUnit", amountUnit)
             intent.putExtra("id", id)
+            intent.putExtra("imageUrl", imageUrl)
             startActivity(intent)
         }
 
