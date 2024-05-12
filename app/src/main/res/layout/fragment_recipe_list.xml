@@ -60,15 +60,15 @@
         android:scrollbars="vertical"
         android:layout_below="@id/recipeSearch" />
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/creteButton"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="bottom|right"
-        android:scaleType="centerInside"
-        android:alpha="0.4"
-        android:backgroundTint="@color/grey"
-        android:src="@drawable/baseline_add" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="20dp"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/white"/>
 
 
 </FrameLayout>

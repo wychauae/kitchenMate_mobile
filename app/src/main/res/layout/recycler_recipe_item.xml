@@ -49,13 +49,13 @@
 
         <ImageButton
             android:id="@+id/editButton"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:scaleType="centerInside"
             android:visibility="invisible"
             android:alpha="0.4"
-            android:backgroundTint="@color/grey"
+            app:backgroundTint="@color/white"
             android:src="@drawable/baseline_edit" />
 
     </androidx.cardview.widget.CardView>
