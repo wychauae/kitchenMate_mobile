@@ -1,5 +1,6 @@
 package com.example.kitchenmate.views
 
+import android.content.Intent
 import com.example.kitchenmate.R
 import android.view.LayoutInflater
 import android.view.View
@@ -37,8 +38,16 @@ class FoodAdapter(dataList: List<FoodItem>) : RecyclerView.Adapter<FoodViewHolde
         holder.foodDescription.text = dataList[position].description
         holder.amount.text = dataList[position].amount
         holder.amountUnit.text = dataList[position].amountUnit
+
         holder.foodCard.setOnClickListener {
             //enter food details page here
+            val intent = Intent(holder.itemView.context, FoodDetailActivity::class.java)
+            intent.putExtra("name", dataList[position].name)
+            intent.putExtra("description", dataList[position].description)
+            intent.putExtra("amount", dataList[position].amount)
+            intent.putExtra("amountUnit", dataList[position].amountUnit)
+            intent.putExtra("id", dataList[position]._id)
+            holder.itemView.context.startActivity(intent)
         }
     }
 

@@ -7,6 +7,7 @@
     <color name="maroon">#FF813531</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="light_grey">#DCDCDC</color >
+    <color name="light_grey">#DCDCDC</color>
     <color name="grey">#9E9E9E</color>
+    <color name="light_green">#FF90EE90</color>
 </resources>
