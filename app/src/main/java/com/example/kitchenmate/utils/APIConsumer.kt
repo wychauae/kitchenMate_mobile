@@ -50,4 +50,10 @@ interface APIConsumer {
 
     @GET("recipe/getRecipeListByUser")
     suspend fun getRecipeListByUser(@Header("Authorization") authToken: String): Response<GetRecipeListResponse>
+
+    @GET("foodrecord/expiredFood")
+    suspend fun getExpiredFoodRecordList(@Header("Authorization") authToken: String): Response<GetExpiredFoodRecordListResponse>
+
+    @DELETE("foodrecord/confirmExpired/{id}")
+    suspend fun confirmExpired(@Header("Authorization") authToken: String,  @Path("id") id: String) : Response<StatusOnlyResponse>
 } 

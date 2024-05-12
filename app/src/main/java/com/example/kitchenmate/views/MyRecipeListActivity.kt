@@ -2,13 +2,11 @@ package com.example.kitchenmate.views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kitchenmate.databinding.ActivityLoginBinding
 import com.example.kitchenmate.databinding.ActivityMyRecipeListBinding
 import com.example.kitchenmate.repositories.RecipeRepository
 import com.example.kitchenmate.utils.APIService

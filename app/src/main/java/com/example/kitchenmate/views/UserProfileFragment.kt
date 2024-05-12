@@ -29,7 +29,7 @@ class UserProfileFragment : Fragment() {
         mBinding.usernameTv.text = AuthToken.getInstance(requireContext().applicationContext).username!!
         mBinding.myRecipeBtn.setOnClickListener { handleMyRecipeButtonClick() }
         mBinding.myShoppingListBtn.setOnClickListener { handleMyShoppingListButtonClick() }
-        mBinding.accountSettingBtn.setOnClickListener { handleAccountSettingButtonClick() }
+//        mBinding.accountSettingBtn.setOnClickListener { handleAccountSettingButtonClick() }
         mBinding.notificationBtn.setOnClickListener { handleNotificationButtonClick() }
         mBinding.logOutBtn.setOnClickListener { handleLogOutButtonClick() }
 
@@ -40,15 +40,15 @@ class UserProfileFragment : Fragment() {
     }
 
     private fun handleMyShoppingListButtonClick() {
-        // Handle myShoppingListBtn click
+
     }
 
     private fun handleAccountSettingButtonClick() {
-        // Handle accountSettingBtn click
+
     }
 
     private fun handleNotificationButtonClick() {
-        // Handle notificationBtn click
+        startActivity(Intent(requireContext(), NotificationActivity::class.java))
     }
 
     private fun handleLogOutButtonClick() {
