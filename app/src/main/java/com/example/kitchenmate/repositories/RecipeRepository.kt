@@ -150,6 +150,7 @@ class RecipeRepository (private val consumer: APIConsumer, val application: Appl
         }
         else{
             val errorBody = response.errorBody()?.string()
+            Log.d("getRecipeListByUser error", errorBody.toString())
             if (errorBody != null) {
                 val errorJson = JSONObject(errorBody)
                 val error = errorJson.getString("error")

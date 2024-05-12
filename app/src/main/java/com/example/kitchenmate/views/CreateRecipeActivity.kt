@@ -233,6 +233,7 @@ class CreateRecipeActivity : AppCompatActivity() {
             }
             back_button.setOnClickListener {
                 val it = Intent(this, HomeActivity::class.java)
+                it.putExtra("fragment", "Recipe")
                 startActivity(it)
             }
         }
@@ -247,6 +248,7 @@ class CreateRecipeActivity : AppCompatActivity() {
                 Toast.makeText(this, "You have successfully created the recipe", Toast.LENGTH_LONG).show()
                 //back to recycler view
                 val it = Intent(this, HomeActivity::class.java)
+                it.putExtra("fragment", "Recipe")
                 startActivity(it)
             }else{
 

@@ -14,9 +14,10 @@ import com.bumptech.glide.Glide
 import com.example.kitchenmate.datas.RecipeItem
 import com.example.kitchenmate.utils.APIService
 
-class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeViewHolder>()  {
+class RecipeAdapter(fragment: String ,dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeViewHolder>()  {
 
     private var dataList: List<RecipeItem>
+    private var fragment: String
 
     fun setSearchList(dataSearchList: List<RecipeItem>) {
         dataList = dataSearchList
@@ -25,6 +26,7 @@ class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeView
 
     init {
         this.dataList = dataList
+        this.fragment = fragment
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -37,6 +39,10 @@ class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeView
         Glide.with(holder.itemView).load(imageUrl).into(holder.recipeImage)
         holder.recipeName.text = dataList[position].name
 
+        if(fragment == "Manage"){
+            holder.editButton.visibility =  android.view.View.VISIBLE
+        }
+
         holder.editButton.setOnClickListener {
             //enter recipe details page here
             val intent = Intent(holder.itemView.context, EditRecipeActivity::class.java)
@@ -47,7 +53,17 @@ class RecipeAdapter(dataList: List<RecipeItem>): RecyclerView.Adapter<RecipeView
             //enter recipe details page here
             val intent = Intent(holder.itemView.context, RecipeDetailActivity::class.java)
             intent.putExtra("recipeID", dataList[position]._id)
+            if(fragment == "Recipe"){
+                intent.putExtra("fragment message", "Recipe")
+            }
+            else if(fragment == "Bookmark"){
+                intent.putExtra("fragment message", "Bookmark")
+            }
+            else if(fragment == "Manage"){
+                intent.putExtra("fragment message", "Manage")
+            }
             holder.itemView.context.startActivity(intent)
+
         }
 
     }

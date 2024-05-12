@@ -33,7 +33,7 @@ class MyRecipeListActivity : AppCompatActivity() {
         val gridLayoutManager = GridLayoutManager(this, 1)
         recipeRecyclerView = mBinding.recipeRecyclerView
         recipeRecyclerView.layoutManager = gridLayoutManager
-        recipeAdapter = RecipeAdapter(emptyList())
+        recipeAdapter = RecipeAdapter("Manage", emptyList())
         recipeRecyclerView.adapter = recipeAdapter
         setUpObservers()
     }
