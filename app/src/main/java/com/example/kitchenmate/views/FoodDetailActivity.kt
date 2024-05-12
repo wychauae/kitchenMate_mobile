@@ -26,8 +26,6 @@ import com.example.kitchenmate.viewModels.CreateFoodActivityViewModel
 import com.example.kitchenmate.viewModels.CreateFoodActivityViewModelFactory
 import com.example.kitchenmate.viewModels.FoodDetailActivityViewModel
 import com.example.kitchenmate.viewModels.FoodDetailActivityViewModelFactory
-import com.example.kitchenmate.viewModels.DetailActivityViewModel
-import com.example.kitchenmate.viewModels.DetailActivityViewModelFactory
 import com.example.kitchenmate.viewModels.LoginActivityViewModel
 import com.example.kitchenmate.viewModels.LoginActivityViewModelFactory
 import com.example.kitchenmate.viewModels.RegisterActivityViewModel

@@ -28,7 +28,7 @@ class UserProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mBinding.usernameTv.text = AuthToken.getInstance(requireContext().applicationContext).username!!
         mBinding.myRecipeBtn.setOnClickListener { handleMyRecipeButtonClick() }
-        mBinding.myShoppingListBtn.setOnClickListener { handleMyShoppingListButtonClick() }
+//        mBinding.myShoppingListBtn.setOnClickListener { handleMyShoppingListButtonClick() }
 //        mBinding.accountSettingBtn.setOnClickListener { handleAccountSettingButtonClick() }
         mBinding.notificationBtn.setOnClickListener { handleNotificationButtonClick() }
         mBinding.logOutBtn.setOnClickListener { handleLogOutButtonClick() }
