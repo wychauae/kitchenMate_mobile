@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 
 object APIService {
-    private const val BASE_URL = "http://10.0.2.2:8080/"
+    private const val BASE_URL = "https://itunes.apple.com/"
 
     fun getService(): APIConsumer{
         val client = OkHttpClient.Builder()

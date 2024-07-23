@@ -24,13 +24,13 @@ class LoginActivityViewModel(private val authRepository: AuthRepository, val app
             authRepository.loginUser(body).collect{
                 when(it){
                     is RequestStatus.Waiting -> {
-                        isLoading.value = true
+//                        isLoading.value = true
                     }
                     is RequestStatus.Success -> {
-                        isLoading.value = false
-                        isLoginCompleted.value = true
-                        AuthToken.getInstance(application.baseContext).token = it.data!!.accessToken
-                        AuthToken.getInstance(application.baseContext).username = it.data.username
+//                        isLoading.value = false
+//                        isLoginCompleted.value = true
+//                        AuthToken.getInstance(application.baseContext).token = it.data!!.accessToken
+//                        AuthToken.getInstance(application.baseContext).username = it.data.username
                     }
                     is RequestStatus.Error -> {
                         isLoading.value = false

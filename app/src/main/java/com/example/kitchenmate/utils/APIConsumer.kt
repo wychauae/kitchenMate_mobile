@@ -1,5 +1,6 @@
 package com.example.kitchenmate.utils
 import com.example.kitchenmate.datas.*
+import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -72,4 +73,8 @@ interface APIConsumer {
 
     @POST("foodrecord/")
     suspend fun insertFoodRecord(@Header("Authorization") authToken: String, @Body body: InsertFoodRecordRequest) : Response<InsertFoodRecordResponse>
+
+
+    @GET("hk/rss/topfreeapplications/limit=100/json")
+    suspend fun getTopFreeApplications(): Response<JsonObject>
 } 
